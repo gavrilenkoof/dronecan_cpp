@@ -1,22 +1,36 @@
-#ifndef DRONECANAPP_H
-#define DRONECANAPP_H
+#ifndef DRONECANMAIN_H
+#define DRONECANMAIN_H
+
 
 #include <QtWidgets/QApplication>
 #include <QQmlApplicationEngine>
+#include <QtQml/qqmlregistration.h>
+#include <QtQml/QQmlContext>
 
+#include "Core/dronecancore.h"
+#include "dronecansetup.h"
+#include "dronecanmain.h"
 
 class DronecanApp : public QApplication
 {
     Q_OBJECT
 public:
-    DronecanApp(int &argc, char* argv[]);
+    explicit DronecanApp(int &argc, char* argv[]);
     ~DronecanApp();
 
 public:
     void init();
+    int execSetup();
+    int execApp();
+
+signals:
+
 
 private:
-    QQmlApplicationEngine* _p_qmlAppEngine{nullptr};
+    QQmlApplicationEngine *_pQmlEngine{nullptr};
+    DronecanCore *_pCore{nullptr};
+    DronecanSetup *_pSetup{nullptr};
+    DronecanMain *_pMain{nullptr};
 };
 
-#endif // DRONECANAPP_H
+#endif // DRONECANMAIN_H

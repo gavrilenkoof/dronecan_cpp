@@ -1,0 +1,22 @@
+find_package(Qt6
+    REQUIRED
+    COMPONENTS
+        Core
+        QuickWidgets
+        Widgets
+)
+
+qt_add_library(Core STATIC
+    dronecancore.h
+    dronecancore.cc
+)
+
+
+target_link_libraries(Core
+    PRIVATE
+        Qt6::Quick
+    PUBLIC
+        Qt6::Core
+        Qt6::QuickWidgets
+        Qt6::Widgets
+)

@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/qml">
         <file alias="main.qml">src/UI/main.qml</file>
+        <file alias="setup.qml">src/UI/setup.qml</file>
     </qresource>
 </RCC>

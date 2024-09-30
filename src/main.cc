@@ -1,7 +1,8 @@
-//#include <QGuiApplication>
-//#include <QQmlApplicationEngine>
+
 
 #include "dronecanapp.h"
+//#include "dronecansetup.h"
+//#include "Core/dronecancore.h"
 
 
 int main(int argc, char *argv[])
@@ -9,10 +10,15 @@ int main(int argc, char *argv[])
 
     DronecanApp app(argc, argv);
 
+
     app.init();
 
-    auto exit_code = app.exec();
 
-    return exit_code;
+    app.execSetup();
+
+    auto exec_2 = app.execApp();
+
+    return exec_2;
+
 }
 
