@@ -11,7 +11,7 @@ DronecanApp::DronecanApp(int &argc, char* argv[])
 
 DronecanApp::~DronecanApp()
 {
-    delete _pTools;
+//    delete _pTools;
     delete _pQmlEngine;
     qDebug() << "App destroyed";
 }

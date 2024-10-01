@@ -8,7 +8,7 @@ ApplicationWindow {
     visible: true
     title: qsTr("Hello World")
 
-    property var backend: _backend
+//    property var backend: _backend
 
     Button {
         id: testButton
