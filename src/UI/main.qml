@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import ToolBox
+
 ApplicationWindow {
     id: mainWindow
     width: 640
@@ -8,7 +10,7 @@ ApplicationWindow {
     visible: true
     title: qsTr("Hello World")
 
-//    property var backend: _backend
+    property var core: ToolBox.core
 
     Button {
         id: testButton
@@ -19,8 +21,7 @@ ApplicationWindow {
 
     function handle()
     {
-        console.log("from main", backend.id)
-        backend.id = 10
+        core.connect()
     }
 
 }

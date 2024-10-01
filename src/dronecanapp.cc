@@ -4,7 +4,7 @@ DronecanApp::DronecanApp(int &argc, char* argv[])
     : QApplication(argc, argv)
 {
 
-    _pTools = new ToolsBox(this);
+    _pTools = ToolBox::instantiate(this);
     _pQmlEngine = new QQmlApplicationEngine(this);
 }
 
@@ -20,8 +20,6 @@ void DronecanApp::init()
 {
 
     _pTools->init();
-
-    _pQmlEngine->rootContext()->setContextProperty("_tools", _pTools);
 
 }
 

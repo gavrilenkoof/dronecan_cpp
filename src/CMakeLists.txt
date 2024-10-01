@@ -11,8 +11,8 @@ find_package(Qt6
 qt_add_library(dronecan_cpp STATIC
     dronecanapp.h
     dronecanapp.cc
-    toolsbox.h
-    toolsbox.cc
+    toolbox.h
+    toolbox.cc
 )
 
 add_subdirectory(Core)

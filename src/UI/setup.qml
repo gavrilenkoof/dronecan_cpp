@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import ToolBox
 
 Window {
     id: setupWindow
@@ -11,7 +12,7 @@ Window {
     color: "#3a3a3a"
     title: qsTr("Application setup")
 
-    readonly property var core : _tools.core
+    readonly property var core : ToolBox.core
 
 //    Rectangle {
 //        id: rect
