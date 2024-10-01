@@ -7,9 +7,9 @@
 #include <QtQml/qqmlregistration.h>
 #include <QtQml/QQmlContext>
 
-#include "Core/dronecancore.h"
-#include "dronecansetup.h"
-#include "dronecanmain.h"
+//#include "Core/dronecancore.h"
+#include "toolsbox.h"
+
 
 class DronecanApp : public QApplication
 {
@@ -27,10 +27,11 @@ signals:
 
 
 private:
+
+    ToolsBox *_pTools{nullptr};
     QQmlApplicationEngine *_pQmlEngine{nullptr};
-    DronecanCore *_pCore{nullptr};
-    DronecanSetup *_pSetup{nullptr};
-    DronecanMain *_pMain{nullptr};
+
+//    DronecanCore *_pCore{nullptr};
 };
 
 #endif // DRONECANMAIN_H

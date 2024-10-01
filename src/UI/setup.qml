@@ -1,17 +1,15 @@
 import QtQuick
 import QtQuick.Controls
-import DronecanSetup
 
 
-
-Window {
+ApplicationWindow {
     id: setupWindow
     width: 460
     height: 420
     visible: true
     title: qsTr("Application setup")
 
-    readonly property var setup: _setup
+    readonly property var core : _tools.core
 
     Button {
         id: testButton
@@ -23,9 +21,9 @@ Window {
 
     function make_connect()
     {
-
-        console.log("from setup", setup.core.id)
-        setup.core.id = 5
+        console.log(core.id)
+//        console.log("from setup", backend.id)
+//        backend.id = 5
 //        setup.core.connect()
     }
 }

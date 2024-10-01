@@ -1,13 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 
-Window {
+ApplicationWindow {
+    id: mainWindow
     width: 640
     height: 480
     visible: true
     title: qsTr("Hello World")
 
-    property var main: _main
+    property var backend: _backend
 
     Button {
         id: testButton
@@ -18,9 +19,8 @@ Window {
 
     function handle()
     {
-        console.log("from main", main.core.id)
-        main.core.id = 10
-//        main.core.connect()
+        console.log("from main", backend.id)
+        backend.id = 10
     }
 
 }

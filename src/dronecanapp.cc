@@ -4,32 +4,24 @@ DronecanApp::DronecanApp(int &argc, char* argv[])
     : QApplication(argc, argv)
 {
 
+    _pTools = new ToolsBox(this);
+    _pQmlEngine = new QQmlApplicationEngine(this);
 }
 
 
 DronecanApp::~DronecanApp()
 {
+    delete _pTools;
     delete _pQmlEngine;
-    delete _pCore;
-    delete _pSetup;
-
     qDebug() << "App destroyed";
 }
 
 void DronecanApp::init()
 {
 
-    _pQmlEngine = new QQmlApplicationEngine(this);
+    _pTools->init();
 
-    qmlRegisterUncreatableType<DronecanCore>("DronecanCore", 1, 0, "DronecanCore", "Reference only");
-    qmlRegisterUncreatableType<DronecanSetup>("DronecanSetup", 1, 0, "DronecanSetup", "Reference only");
-
-    _pCore = new DronecanCore(this);
-    _pSetup = new DronecanSetup(this, _pCore);
-    _pMain = new DronecanMain(this, _pCore);
-
-    _pQmlEngine->rootContext()->setContextProperty("_setup", _pSetup);
-    _pQmlEngine->rootContext()->setContextProperty("_main", _pMain);
+    _pQmlEngine->rootContext()->setContextProperty("_tools", _pTools);
 
 }
 

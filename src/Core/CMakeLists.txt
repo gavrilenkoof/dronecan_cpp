@@ -20,3 +20,8 @@ target_link_libraries(Core
         Qt6::QuickWidgets
         Qt6::Widgets
 )
+
+
+
+
+target_include_directories(Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -1,31 +1,36 @@
-#ifndef DRONECANMAINWIN_H
-#define DRONECANMAINWIN_H
+#ifndef TOOLBOX_H
+#define TOOLBOX_H
 
 #include <QObject>
+
 #include "Core/dronecancore.h"
 
-class DronecanMain : public QObject
+
+class ToolsBox : public QObject
 {
     Q_OBJECT
-
 public:
-    explicit DronecanMain(QObject *parent = nullptr, DronecanCore *core = nullptr);
-    ~DronecanMain();
+    ToolsBox(QObject *app);
+    ~ToolsBox();
 
     Q_PROPERTY(DronecanCore* core READ core CONSTANT)
-
-public:
 
     DronecanCore *core(void)
     {
         return _pCore;
     }
 
+
+    void init();
+
+
 private:
+
     DronecanCore *_pCore{nullptr};
+
 
 signals:
 
 };
 
-#endif // DRONECANMAINWIN_H
+#endif // TOOLBOX_H

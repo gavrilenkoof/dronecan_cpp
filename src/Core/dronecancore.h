@@ -2,14 +2,15 @@
 #define DRONECANCORE_H
 
 #include <QObject>
-
+#include <QQmlApplicationEngine>
+#include <QtQml/qqmlregistration.h>
 #include <QDebug>
 
 class DronecanCore : public QObject
 {
     Q_OBJECT
 public:
-    explicit DronecanCore(QObject *parent = nullptr, DronecanCore *core = nullptr);
+    explicit DronecanCore(QObject *parent = nullptr);
     ~DronecanCore();
 public:
 
@@ -17,8 +18,11 @@ public:
 
     Q_INVOKABLE void connect();
 
+    void init();
+
     void setId(int id)
     {
+        qDebug() << "set id";
         _id = id;
     }
 
