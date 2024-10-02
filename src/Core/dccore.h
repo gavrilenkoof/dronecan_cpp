@@ -6,19 +6,15 @@
 #include <QtQml/qqmlregistration.h>
 #include <QDebug>
 
-class DronecanCore : public QObject
+class DCCore : public QObject
 {
     Q_OBJECT
-public:
-    explicit DronecanCore(QObject *parent = nullptr);
-    ~DronecanCore();
+
 public:
 
     Q_PROPERTY(int id READ id WRITE setId)
 
     Q_INVOKABLE void connect();
-
-    void init();
 
     void setId(int id)
     {
@@ -30,6 +26,11 @@ public:
     {
         return _id;
     }
+public:
+    explicit DCCore(QObject *parent = nullptr);
+    ~DCCore();
+
+    void init();
 
 private:
     int _id{0};

@@ -3,40 +3,138 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import ToolBox
+import DCPallete
 
 Window {
     id: setupWindow
+    title: qsTr("Application setup")
+
     width: 460
     height: 420
+    minimumWidth: 360
+    minimumHeight: 360
     visible: true
-    color: "#3a3a3a"
-    title: qsTr("Application setup")
+
+    color: dcPal.darkWindow
+
+    DCPallete {
+        id: dcPal
+    }
 
     readonly property var core : ToolBox.core
 
-//    Rectangle {
-//        id: rect
-//        width: setupWindow.width * 0.7
-//        height: setupWindow.height * 0.7
-//        color: setupWindow.color
-//        border.color: "red"
-//    }
 
     GridLayout {
-        id: grid
+        id: mainGrid
         columns: 1
         rows: 3
-//        anchors.horizontalCenter: setupWindow.horizontalCenter
-//        anchors.center: setupWindow.center
+        rowSpacing: 5
 
-        Repeater {
-            model: 2
-            Rectangle {
-                width: setupWindow.width * 0.9
-                height: setupWindow.height * 0.3
-                color: setupWindow.color
-                border.color: "red"
+        anchors {
+            margins: 20
+            fill: parent
+        }
+
+        Rectangle {
+            id: selectSerial
+
+            color: setupWindow.color
+//            border.color: "red"
+
+//            Layout.bottomMargin: 10
+//            implicitHeight: mainGrid.height * 0.12
+//            implicitWidth: mainGrid.width
+            Layout.preferredHeight: mainGrid.height * 0.12
+            Layout.preferredWidth: mainGrid.width
+
+            ColumnLayout {
+//                spacing: 5
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    verticalCenter: parent.verticalCenter
+                }
+
+                Rectangle {
+                    id: textSelectorRect
+                    color: setupWindow.color
+
+                    implicitHeight: selectSerial.height * 0.3
+                    implicitWidth: selectSerial.width
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: selectSerial.height * 0.3
+
+                    Text {
+                        id: textSelector
+                        color: dcPal.text
+
+                        anchors {
+                            left: parent.left
+                            bottom: parent.bottom
+                        }
+
+                        text: qsTr("Select CAN Interface")
+
+                    }
+
+                }
+
+                Rectangle {
+                    id: comboBoxRect
+                    color: setupWindow.color
+
+                    implicitHeight: selectSerial.height * 0.5
+                    implicitWidth: selectSerial.width
+//                    Layout.fillWidth: true
+//                    Layout.preferredHeight: selectSerial.height * 0.3
+
+
+                    ComboBox {
+                        id: comboBox
+
+                        implicitHeight: selectSerial.height * 0.5
+                        implicitWidth: selectSerial.width
+
+                    }
+
+                }
+
             }
+
+        }
+
+        Rectangle {
+            id: settingsSerial
+            color: setupWindow.color
+            border.color: "red"
+
+//            implicitHeight: mainGrid.height * 0.82
+//            implicitWidth: mainGrid.width
+            Layout.preferredHeight: mainGrid.height * 0.82
+            Layout.preferredWidth: mainGrid.width
+
+        }
+
+        Rectangle {
+            id: acceptBtnRect
+            color: setupWindow.color
+//            border.color: "red"
+
+//            implicitHeight: mainGrid.height * 0.06
+//            implicitWidth: mainGrid.width
+            Layout.preferredHeight: mainGrid.height * 0.06
+            Layout.preferredWidth: mainGrid.width
+
+            Button {
+                id: acceptBtn
+
+                width: parent.width
+                height: parent.height
+
+                text: "OK"
+                palette.buttonText: dcPal.text
+            }
+
+
         }
 
 

@@ -3,22 +3,24 @@
 
 #include <QObject>
 
-#include "Core/dronecancore.h"
+#include "Core/dccore.h"
+
+//#include "QmlControls/dcqmlcontrols.h"
 
 
 class ToolBox : public QObject
 {
     Q_OBJECT
 public:
-    Q_PROPERTY(DronecanCore* core READ core CONSTANT)
+    Q_PROPERTY(DCCore* core READ core CONSTANT)
 
     static QObject *getInstance(QQmlEngine *, QJSEngine *)
     {
-        qDebug() << "Get instance";
+//        qDebug() << "Get instance";
         return _instance;
     }
 
-    static ToolBox * instantiate(QObject *app)
+    static ToolBox *getInstance(QObject *app = nullptr)
     {
         if(_instance == nullptr)
         {
@@ -28,12 +30,13 @@ public:
         return _instance;
     }
 
-    DronecanCore *core(void)
+    DCCore *core(void)
     {
-        qDebug() << "Get core";
+//        qDebug() << "Get core";
         return _pCore;
     }
 
+public:
 
     void init();
 
@@ -45,7 +48,8 @@ private:
 
     static ToolBox *_instance;
 
-    DronecanCore *_pCore{nullptr};
+    DCCore *_pCore{nullptr};
+
 
 
 signals:

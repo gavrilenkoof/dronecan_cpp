@@ -1,5 +1,7 @@
 #include "toolbox.h"
 
+#include "QmlControls/dcpallete.h"
+
 
 ToolBox* ToolBox::_instance = nullptr;
 
@@ -7,7 +9,7 @@ ToolBox* ToolBox::_instance = nullptr;
 ToolBox::ToolBox(QObject *app)
     : QObject(app)
 {
-    _pCore = new DronecanCore(this);
+    _pCore = new DCCore(this);
 }
 
 ToolBox::~ToolBox()
@@ -17,10 +19,10 @@ ToolBox::~ToolBox()
 
 void ToolBox::init()
 {
-//    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
-//    qmlRegisterUncreatableType<ToolsBox>("ToolsBox", 1, 0, "ToolsBox", "Reference only");
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
     qmlRegisterSingletonType<ToolBox>("ToolBox", 1, 0, "ToolBox", ToolBox::getInstance);
+    qmlRegisterType<DCPallete>("DCPallete", 1, 0, "DCPallete");
 
 
     _pCore->init();

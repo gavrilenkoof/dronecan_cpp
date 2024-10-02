@@ -14,9 +14,9 @@ int main(int argc, char *argv[])
     app.init();
 
 
-    app.execSetup();
+    auto exec_2 = app.execSetup();
 
-    auto exec_2 = app.execApp();
+//    app.execApp();
 
     return exec_2;
 

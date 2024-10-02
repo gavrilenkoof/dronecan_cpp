@@ -16,6 +16,7 @@ qt_add_library(dronecan_cpp STATIC
 )
 
 add_subdirectory(Core)
+add_subdirectory(QmlControls)
 
 
 target_link_libraries(dronecan_cpp
@@ -23,6 +24,7 @@ target_link_libraries(dronecan_cpp
         Qt6::Quick
         Qt6::Qml
         Core
+        QmlControls
     PUBLIC
         Qt6::Core
         Qt6::QuickWidgets

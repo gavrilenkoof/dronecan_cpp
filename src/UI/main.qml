@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 
 import ToolBox
+import DCPallete
 
 ApplicationWindow {
     id: mainWindow
@@ -9,6 +10,12 @@ ApplicationWindow {
     height: 480
     visible: true
     title: qsTr("Hello World")
+
+    color: dcPal.darkWindow
+
+    DCPallete {
+        id: dcPal
+    }
 
     property var core: ToolBox.core
 

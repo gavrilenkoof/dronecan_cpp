@@ -7,8 +7,8 @@ find_package(Qt6
 )
 
 qt_add_library(Core STATIC
-    dronecancore.h
-    dronecancore.cc
+    dccore.h
+    dccore.cc
 )
 
 

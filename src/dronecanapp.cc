@@ -4,16 +4,15 @@ DronecanApp::DronecanApp(int &argc, char* argv[])
     : QApplication(argc, argv)
 {
 
-    _pTools = ToolBox::instantiate(this);
+    _pTools = ToolBox::getInstance(this);
     _pQmlEngine = new QQmlApplicationEngine(this);
 }
 
 
 DronecanApp::~DronecanApp()
 {
-//    delete _pTools;
     delete _pQmlEngine;
-    qDebug() << "App destroyed";
+//    qDebug() << "App destroyed";
 }
 
 void DronecanApp::init()
