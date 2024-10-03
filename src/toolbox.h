@@ -4,8 +4,8 @@
 #include <QObject>
 
 #include "Core/dccore.h"
+#include "QmlControls/dcpallete.h"
 
-//#include "QmlControls/dcqmlcontrols.h"
 
 
 class ToolBox : public QObject
@@ -13,10 +13,25 @@ class ToolBox : public QObject
     Q_OBJECT
 public:
     Q_PROPERTY(DCCore* core READ core CONSTANT)
+    Q_PROPERTY(DCPallete* pallete READ pallete CONSTANT)
+
+
+    DCCore *core(void)
+    {
+        return _pCore;
+    }
+
+    DCPallete *pallete(void)
+    {
+        return _pPall;
+    }
+
+
+
+public:
 
     static QObject *getInstance(QQmlEngine *, QJSEngine *)
     {
-//        qDebug() << "Get instance";
         return _instance;
     }
 
@@ -30,14 +45,6 @@ public:
         return _instance;
     }
 
-    DCCore *core(void)
-    {
-//        qDebug() << "Get core";
-        return _pCore;
-    }
-
-public:
-
     void init();
 
 private:
@@ -49,7 +56,7 @@ private:
     static ToolBox *_instance;
 
     DCCore *_pCore{nullptr};
-
+    DCPallete *_pPall{nullptr};
 
 
 signals:

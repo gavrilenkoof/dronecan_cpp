@@ -1,25 +1,34 @@
 #include "dccore.h"
 
+
+DCCore* DCCore::_instance = nullptr;
+
+
+
 DCCore::DCCore(QObject *parent)
     : QObject(parent)
 {
 
-//    qDebug() << "Created";
+    qDebug() << "Created";
 
 }
 
 DCCore::~DCCore()
 {
-//    qDebug() << "Core destroyed";
+
 }
 
-void DCCore::connect()
+void DCCore::tryConnect()
 {
-//    qDebug() << "Local";
+    emit makeConnection();
 }
 
 void DCCore::init()
 {
-//    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
-//    qmlRegisterUncreatableType<DronecanCore>("DronecanCore", 1, 0, "DronecanCore", "Reference only");
+    connect(this, &DCCore::makeConnection, this, &DCCore::onMakeConnection);
+}
+
+void DCCore::onMakeConnection()
+{
+    qDebug() << "make connection";
 }

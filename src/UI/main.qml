@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 
 import ToolBox
-import DCPallete
 
 ApplicationWindow {
     id: mainWindow
@@ -11,13 +10,10 @@ ApplicationWindow {
     visible: true
     title: qsTr("Hello World")
 
-    color: dcPal.darkWindow
+    color: dcPallete.window
 
-    DCPallete {
-        id: dcPal
-    }
-
-    property var core: ToolBox.core
+    property var dcCore: ToolBox.core
+    property var dcPallete: ToolBox.pallete
 
     Button {
         id: testButton
@@ -28,7 +24,7 @@ ApplicationWindow {
 
     function handle()
     {
-        core.connect()
+        dcCore.connect()
     }
 
 }

@@ -18,13 +18,14 @@ class DCPallete : public QObject
     QML_ELEMENT
 public:
 
-    Q_PROPERTY(QColor darkWindow READ darkWindow CONSTANT)
+    Q_PROPERTY(QColor window READ window CONSTANT)
     Q_PROPERTY(QColor text READ text CONSTANT)
+    Q_PROPERTY(QColor windowBackground READ windowBackground CONSTANT)
 
 
-    QColor darkWindow(void)
+    QColor window(void)
     {
-        return colorMap["darkWindow"];
+        return colorMap["window"];
     }
 
     QColor text(void)
@@ -32,15 +33,39 @@ public:
         return colorMap["text"];
     }
 
+    QColor windowBackground(void)
+    {
+        return colorMap["windowBackground"];
+    }
+
 public:
+
+
+    static DCPallete *getInstance(QObject *app = nullptr)
+    {
+        if(_instance == nullptr)
+        {
+            _instance = new DCPallete(app);
+        }
+
+        return _instance;
+    }
+
+
+
+    void init();
+
+
+private:
     explicit DCPallete(QObject *parent = nullptr);
     ~DCPallete();
 
-private:
     void _buildColorMap();
 
 private:
     static QMap<QString, QColor> colorMap;
+
+    static DCPallete *_instance;
 
 
 signals:

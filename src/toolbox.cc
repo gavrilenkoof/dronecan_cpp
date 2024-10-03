@@ -9,21 +9,23 @@ ToolBox* ToolBox::_instance = nullptr;
 ToolBox::ToolBox(QObject *app)
     : QObject(app)
 {
-    _pCore = new DCCore(this);
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
+    _pCore = DCCore::getInstance(this);
+    _pPall = DCPallete::getInstance(this);
 }
 
 ToolBox::~ToolBox()
 {
-    delete _pCore;
+
 }
 
 void ToolBox::init()
 {
-    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
 
     qmlRegisterSingletonType<ToolBox>("ToolBox", 1, 0, "ToolBox", ToolBox::getInstance);
-    qmlRegisterType<DCPallete>("DCPallete", 1, 0, "DCPallete");
-
 
     _pCore->init();
+    _pPall->init();
 }

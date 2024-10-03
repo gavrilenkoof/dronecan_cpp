@@ -14,7 +14,7 @@ public:
 
     Q_PROPERTY(int id READ id WRITE setId)
 
-    Q_INVOKABLE void connect();
+    Q_INVOKABLE void tryConnect();
 
     void setId(int id)
     {
@@ -27,13 +27,36 @@ public:
         return _id;
     }
 public:
-    explicit DCCore(QObject *parent = nullptr);
-    ~DCCore();
+
+    static DCCore *getInstance(QObject *app = nullptr)
+    {
+        if(_instance == nullptr)
+        {
+            _instance = new DCCore(app);
+        }
+
+        return _instance;
+    }
+
 
     void init();
 
+signals:
+
+    void makeConnection();
+
+private slots:
+
+    void onMakeConnection();
+
+private:
+    explicit DCCore(QObject *parent = nullptr);
+    ~DCCore();
+
 private:
     int _id{0};
+
+    static DCCore *_instance;
 
 signals:
 
