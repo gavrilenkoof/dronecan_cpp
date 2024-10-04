@@ -6,26 +6,19 @@
 #include <QtQml/qqmlregistration.h>
 #include <QDebug>
 
+#include "linklistener.h"
+
+
 class DCCore : public QObject
 {
     Q_OBJECT
 
 public:
 
-    Q_PROPERTY(int id READ id WRITE setId)
-
     Q_INVOKABLE void tryConnect();
 
-    void setId(int id)
-    {
-        qDebug() << "set id";
-        _id = id;
-    }
+    Q_PROPERTY(LinkListener* link READ link CONSTANT)
 
-    int id(void)
-    {
-        return _id;
-    }
 public:
 
     static DCCore *getInstance(QObject *app = nullptr)
@@ -36,6 +29,11 @@ public:
         }
 
         return _instance;
+    }
+
+    LinkListener* link(void)
+    {
+        return _pLinkListener;
     }
 
 
@@ -57,6 +55,8 @@ private:
     int _id{0};
 
     static DCCore *_instance;
+
+    LinkListener *_pLinkListener{nullptr};
 
 signals:
 

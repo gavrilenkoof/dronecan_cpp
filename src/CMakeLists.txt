@@ -32,3 +32,4 @@ target_link_libraries(dronecan_cpp
 )
 
 
+target_include_directories(dronecan_cpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

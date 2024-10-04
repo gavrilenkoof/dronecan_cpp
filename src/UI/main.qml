@@ -12,8 +12,8 @@ ApplicationWindow {
 
     color: dcPallete.window
 
-    property var dcCore: ToolBox.core
-    property var dcPallete: ToolBox.pallete
+    readonly property var dcCore: ToolBox.core
+    readonly property var dcPallete: ToolBox.pallete
 
     Button {
         id: testButton

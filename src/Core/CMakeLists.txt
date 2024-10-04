@@ -4,11 +4,14 @@ find_package(Qt6
         Core
         QuickWidgets
         Widgets
+        SerialPort
 )
 
 qt_add_library(Core STATIC
     dccore.h
     dccore.cc
+    linklistener.h
+    linklistener.cc
 )
 
 
@@ -19,6 +22,7 @@ target_link_libraries(Core
         Qt6::Core
         Qt6::QuickWidgets
         Qt6::Widgets
+        Qt6::SerialPort
 )
 
 

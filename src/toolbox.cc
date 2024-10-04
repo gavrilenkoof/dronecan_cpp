@@ -23,7 +23,6 @@ ToolBox::~ToolBox()
 void ToolBox::init()
 {
 
-
     qmlRegisterSingletonType<ToolBox>("ToolBox", 1, 0, "ToolBox", ToolBox::getInstance);
 
     _pCore->init();

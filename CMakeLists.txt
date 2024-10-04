@@ -16,6 +16,7 @@ list(APPEND QGC_RESOURCES
 find_package(Qt6 6.2
     COMPONENTS
         Quick
+        SerialPort
     REQUIRED
 )
 
@@ -45,6 +46,7 @@ add_subdirectory(src)
 target_link_libraries(appdronecan_cpp
     PRIVATE
         Qt6::Quick
+        Qt6::SerialPort
         dronecan_cpp
 )
 

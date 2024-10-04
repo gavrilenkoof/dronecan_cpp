@@ -19,6 +19,8 @@ Window {
     readonly property var dcCore : ToolBox.core
     readonly property var dcPallete : ToolBox.pallete
 
+    property var ports: ToolBox.core.link.ports
+
 
     GridLayout {
         id: mainGrid
@@ -112,7 +114,6 @@ Window {
 //                    horizontalCenter: parent.horizontalCenter
                     top: parent.top
                     verticalCenter: parent.verticalCenter
-//                    top: pa
                 }
 
                 Rectangle {
@@ -150,6 +151,7 @@ Window {
                         anchors {
                             top: parent.top
                             horizontalCenter: parent.horizontalCenter
+                            topMargin: 5
                         }
 
                         Rectangle {
@@ -305,7 +307,13 @@ Window {
                 text: "OK"
                 palette.buttonText: dcPallete.text
 
-                onClicked: dcCore.tryConnect()
+                onClicked: handle()
+
+
+                function handle()
+                {
+                    console.log(ports)
+                }
 
             }
 
