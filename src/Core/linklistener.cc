@@ -32,7 +32,7 @@ void LinkListener::_onTimeout()
     {
         _portNums = serialPortInfos.size();
 
-        QStringList ports{};
+        QList<QString> ports{};
 
         for(auto &port: serialPortInfos)
         {
@@ -45,9 +45,10 @@ void LinkListener::_onTimeout()
 
 }
 
-void LinkListener::setPorts(const QStringList &ports)
+void LinkListener::setPorts(const QList<QString> &ports)
 {
     _ports = ports;
+    emit portsChanged();
 }
 
 

@@ -4,8 +4,13 @@
 #include <QObject>
 #include <QSerialPortInfo>
 #include <QTimer>
-#include <QVariantList>
-#include <QMap>
+
+
+//#include <QVariantList>
+//#include <QMap>
+#include <QString>
+#include <QList>
+
 
 #include <QDebug>
 
@@ -17,10 +22,10 @@ class LinkListener : public QObject
 
 public:
 
-    Q_PROPERTY(QStringList ports READ ports WRITE setPorts NOTIFY portsChanged)
+    Q_PROPERTY(QList<QString> ports READ ports WRITE setPorts NOTIFY portsChanged)
 
-    QStringList ports(void);
-    void setPorts(QStringList const &ports);
+    QList<QString> ports(void);
+    void setPorts(QList<QString> const &ports);
 
 
 public:
@@ -42,7 +47,7 @@ private:
 
     int _portNums{};
 
-    QStringList _ports{};
+    QList<QString> _ports{};
 };
 
 #endif // LINKLISTENER_H

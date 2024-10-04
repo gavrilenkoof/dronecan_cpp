@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQml
 
 import ToolBox
 
@@ -19,7 +20,7 @@ Window {
     readonly property var dcCore : ToolBox.core
     readonly property var dcPallete : ToolBox.pallete
 
-    property var ports: ToolBox.core.link.ports
+//    property var ports: ToolBox.core.link.ports
 
 
     GridLayout {
@@ -77,7 +78,7 @@ Window {
                 }
 
                 Rectangle {
-                    id: comboBoxRect
+                    id: serialComboBoxRect
                     color: setupWindow.color
 
                     implicitHeight: selectSerial.height * 0.5
@@ -87,12 +88,41 @@ Window {
 
 
                     ComboBox {
-                        id: comboBox
+                        id: serialComboBox
 
                         implicitHeight: selectSerial.height * 0.5
                         implicitWidth: selectSerial.width
 
+                        ListModel {
+                            id: listModel
+                            ListElement {
+                                text:""
+                            }
+                        }
+
+
+                        model: listModel
+
+                        Connections {
+                            target: dcCore.link
+
+                            function onPortsChanged()
+                            {
+                                serialComboBox.model.clear()
+
+                                for(var index in dcCore.link.ports)
+                                {
+                                    serialComboBox.model.append({text: dcCore.link.ports[index]})
+                                }
+                                serialComboBox.currentIndex = 0
+
+                            }
+
+                        }
+
                     }
+
+
 
                 }
 
@@ -312,7 +342,7 @@ Window {
 
                 function handle()
                 {
-                    console.log(ports)
+//                    console.log(ports)
                 }
 
             }
