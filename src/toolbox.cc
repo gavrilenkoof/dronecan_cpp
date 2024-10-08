@@ -11,7 +11,7 @@ ToolBox::ToolBox(QObject *app)
 {
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
-    _pCore = DCCore::getInstance(this);
+    _pLinkManager = LinkManager::getInstance(this);
     _pPall = DCPallete::getInstance(this);
 }
 
@@ -25,6 +25,6 @@ void ToolBox::init()
 
     qmlRegisterSingletonType<ToolBox>("ToolBox", 1, 0, "ToolBox", ToolBox::getInstance);
 
-    _pCore->init();
+    _pLinkManager->init();
     _pPall->init();
 }

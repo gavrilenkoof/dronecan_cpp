@@ -8,10 +8,12 @@ find_package(Qt6
 )
 
 qt_add_library(Core STATIC
-    dccore.h
-    dccore.cc
-    linklistener.h
-    linklistener.cc
+#    dccore.h
+#    dccore.cc
+    linkmanager.h
+    linkmanager.cc
+    linkinterface.h
+    linkinterface.cc
 )
 
 

@@ -2,8 +2,10 @@
 #define TOOLBOX_H
 
 #include <QObject>
+#include <QQmlApplicationEngine>
+#include <QtQml/qqmlregistration.h>
 
-#include "Core/dccore.h"
+#include "Core/linkmanager.h"
 #include "QmlControls/dcpallete.h"
 
 
@@ -12,20 +14,19 @@ class ToolBox : public QObject
 {
     Q_OBJECT
 public:
-    Q_PROPERTY(DCCore* core READ core CONSTANT)
     Q_PROPERTY(DCPallete* pallete READ pallete CONSTANT)
+    Q_PROPERTY(LinkManager* linkManager READ linkManager CONSTANT)
 
 
-    DCCore *core(void)
+    LinkManager *linkManager(void)
     {
-        return _pCore;
+        return _pLinkManager;
     }
 
     DCPallete *pallete(void)
     {
         return _pPall;
     }
-
 
 
 public:
@@ -55,7 +56,7 @@ private:
 
     static ToolBox *_instance;
 
-    DCCore *_pCore{nullptr};
+    LinkManager *_pLinkManager{nullptr};
     DCPallete *_pPall{nullptr};
 
 

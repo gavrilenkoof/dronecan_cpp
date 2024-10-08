@@ -17,7 +17,7 @@ Window {
 
     color: dcPallete.window
 
-    readonly property var dcCore : ToolBox.core
+    readonly property var linkManager : ToolBox.linkManager
     readonly property var dcPallete : ToolBox.pallete
 
 //    property var ports: ToolBox.core.link.ports
@@ -114,13 +114,13 @@ Window {
 
 
                         Connections {
-                            target: dcCore.linkListener
+                            target: linkManager
 
                             function onPortsChanged()
                             {
 
                                 serialComboBox.model.clear()
-                                for(var port_desc in dcCore.linkListener.ports)
+                                for(var port_desc in linkManager.ports)
                                 {
                                     serialComboBox.model.append({text: port_desc})
                                 }
@@ -354,10 +354,11 @@ Window {
 
                 function connectionHandler()
                 {
-//                    dcCore.activePortName = dcCore.linkListener.ports[serialComboBox.currentValue]
-//                    console.log(busNumberSpinBox.value)
-//                    console.log(canBusBitrateSpinBox.value)
-//                    console.log(adapterBaudRateComboBox.currentValue)
+                    var portName = linkManager.ports[serialComboBox.currentValue]
+                    var busNumber = busNumberSpinBox.value
+                    var canBusBitrate = canBusBitrateSpinBox.value
+                    var adapterSpeed = adapterBaudRateComboBox.currentValue
+                    linkManager.makeConnection(portName, busNumber, canBusBitrate, adapterSpeed)
                 }
 
             }
