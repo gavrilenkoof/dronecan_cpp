@@ -9,7 +9,7 @@
 
 #include <QDebug>
 
-#include "linkinterface.h"
+#include "linkserial.h"
 
 
 
@@ -63,7 +63,7 @@ private:
 
     QVariantMap _ports{};
 
-    std::unique_ptr<LinkInterface> _pLink;
+    std::unique_ptr<LinkSerial> _pLink;
 
 };
 
