@@ -8,7 +8,8 @@
 
 //#include <QVariantList>
 //#include <QMap>
-#include <QString>
+//#include <QString>
+#include <QVariantMap>
 #include <QList>
 
 
@@ -22,10 +23,10 @@ class LinkListener : public QObject
 
 public:
 
-    Q_PROPERTY(QList<QString> ports READ ports WRITE setPorts NOTIFY portsChanged)
+    Q_PROPERTY(QVariantMap ports READ ports WRITE setPorts NOTIFY portsChanged)
 
-    QList<QString> ports(void);
-    void setPorts(QList<QString> const &ports);
+    QVariantMap ports();
+    void setPorts(QVariantMap const &ports);
 
 
 public:
@@ -47,7 +48,8 @@ private:
 
     int _portNums{};
 
-    QList<QString> _ports{};
+    QVariantMap _ports{};
+
 };
 
 #endif // LINKLISTENER_H

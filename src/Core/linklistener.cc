@@ -32,11 +32,11 @@ void LinkListener::_onTimeout()
     {
         _portNums = serialPortInfos.size();
 
-        QList<QString> ports{};
+        QVariantMap ports{};
 
         for(auto &port: serialPortInfos)
         {
-            ports.append(port.portName());
+            ports.insert(port.portName() + " - " + port.description(), port.portName());
         }
 
         setPorts(ports);
@@ -45,14 +45,14 @@ void LinkListener::_onTimeout()
 
 }
 
-void LinkListener::setPorts(const QList<QString> &ports)
+void LinkListener::setPorts(const QVariantMap &ports)
 {
     _ports = ports;
     emit portsChanged();
 }
 
 
-QStringList LinkListener::ports(void)
+QVariantMap LinkListener::ports(void)
 {
     return _ports;
 }

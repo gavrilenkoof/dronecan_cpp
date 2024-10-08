@@ -20,7 +20,7 @@ DCPallete::DCPallete(QObject *parent)
 
 DCPallete::~DCPallete()
 {
-    qDebug() << "Destroy";
+//    qDebug() << "Destroy";
 }
 
 void DCPallete::_buildColorMap()

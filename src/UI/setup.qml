@@ -59,8 +59,6 @@ Window {
 
                     implicitHeight: selectSerial.height * 0.3
                     implicitWidth: selectSerial.width
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: selectSerial.height * 0.3
 
                     Text {
                         id: textSelector
@@ -83,8 +81,6 @@ Window {
 
                     implicitHeight: selectSerial.height * 0.5
                     implicitWidth: selectSerial.width
-//                    Layout.fillWidth: true
-//                    Layout.preferredHeight: selectSerial.height * 0.3
 
 
                     ComboBox {
@@ -93,6 +89,19 @@ Window {
                         implicitHeight: selectSerial.height * 0.5
                         implicitWidth: selectSerial.width
 
+
+                        contentItem: Text {
+                            text: parent.displayText
+//                                    font.family: "Arial";
+//                                    font.pixelSize: 39;
+                            color: dcPallete.text
+                            verticalAlignment: Text.AlignVCenter;
+//                            horizontalAlignment: Text.AlignHCenter;
+                            leftPadding: 5
+                            elide: Text.ElideRight
+                        }
+
+
                         ListModel {
                             id: listModel
                             ListElement {
@@ -100,25 +109,30 @@ Window {
                             }
                         }
 
-
                         model: listModel
+                        currentIndex: -1
+
 
                         Connections {
-                            target: dcCore.link
+                            target: dcCore.linkListener
 
                             function onPortsChanged()
                             {
-                                serialComboBox.model.clear()
 
-                                for(var index in dcCore.link.ports)
+                                serialComboBox.model.clear()
+                                for(var port_desc in dcCore.linkListener.ports)
                                 {
-                                    serialComboBox.model.append({text: dcCore.link.ports[index]})
+                                    serialComboBox.model.append({text: port_desc})
                                 }
+
                                 serialComboBox.currentIndex = 0
 
                             }
 
+
                         }
+
+//                        onCurrentValueChanged: console.log(currentValue)
 
                     }
 
@@ -296,8 +310,6 @@ Window {
                                     elide: Text.ElideRight
                                 }
 
-
-
                                 model: ListModel {
                                     id: adapterBaudRateModel
                                     ListElement {text: "3000000"}
@@ -337,12 +349,15 @@ Window {
                 text: "OK"
                 palette.buttonText: dcPallete.text
 
-                onClicked: handle()
+                onClicked: connectionHandler()
 
 
-                function handle()
+                function connectionHandler()
                 {
-//                    console.log(ports)
+//                    dcCore.activePortName = dcCore.linkListener.ports[serialComboBox.currentValue]
+//                    console.log(busNumberSpinBox.value)
+//                    console.log(canBusBitrateSpinBox.value)
+//                    console.log(adapterBaudRateComboBox.currentValue)
                 }
 
             }

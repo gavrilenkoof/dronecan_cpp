@@ -17,7 +17,11 @@ public:
 
     Q_INVOKABLE void tryConnect();
 
-    Q_PROPERTY(LinkListener* link READ link CONSTANT)
+    Q_PROPERTY(LinkListener* linkListener READ linkListener CONSTANT)
+//    Q_PROPERTY(QString activePortName READ activePortName WRITE setActivePortName NOTIFY activePortNameChanged)
+
+//    QString activePortName(void);
+//    void setActivePortName(QString portName);
 
 public:
 
@@ -31,7 +35,7 @@ public:
         return _instance;
     }
 
-    LinkListener* link(void)
+    LinkListener* linkListener(void)
     {
         return _pLinkListener;
     }
@@ -42,6 +46,7 @@ public:
 signals:
 
     void makeConnection();
+    void activePortNameChanged();
 
 private slots:
 
@@ -52,11 +57,11 @@ private:
     ~DCCore();
 
 private:
-    int _id{0};
-
     static DCCore *_instance;
 
     LinkListener *_pLinkListener{nullptr};
+
+//    QString _activePortName{};
 
 signals:
 

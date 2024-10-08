@@ -9,8 +9,7 @@ DCCore::DCCore(QObject *parent)
     : QObject(parent)
 {
     _pLinkListener = new LinkListener(this);
-    qDebug() << "Created";
-
+//    qDebug() << "Created";
 }
 
 DCCore::~DCCore()
@@ -23,9 +22,18 @@ void DCCore::tryConnect()
     emit makeConnection();
 }
 
+//QString DCCore::activePortName()
+//{
+//    return _activePortName;
+//}
+
+//void DCCore::setActivePortName(QString portName)
+//{
+//    _activePortName = portName;
+//}
+
 void DCCore::init()
 {
-
 
     _pLinkListener->init();
 
