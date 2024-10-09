@@ -18,10 +18,13 @@ public:
 
     bool tryConnect(void);
 
+    void writeBytesThreadSafe(QByteArray &bytes);
+
 protected:
 
 
 signals:
+    void receiveBytes(LinkSerial *link, QByteArray bytes);
 
 public slots:
     void linkError(QSerialPort::SerialPortError error);

@@ -1,5 +1,9 @@
 #include "linkmanager.h"
 
+#include "linkserial.h"
+#include "toolbox.h"
+#include "serialcan.h"
+
 
 LinkManager* LinkManager::_instance = nullptr;
 
@@ -89,7 +93,11 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
         qDebug() << "Error: connection failed";
     }
 
-//    (void)connect(_pLink.get(), &LinkInterface::bytesReceived, this, &LinkManager::testBytesRecieved);
+    auto slcan = ToolBox::getInstance()->slcan();
+
+    (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCAN::onRecieveBytes);
+
+    slcan->sendTest(_pLink.get());
 
 }
 

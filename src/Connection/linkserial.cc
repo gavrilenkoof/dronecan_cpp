@@ -59,6 +59,14 @@ bool LinkSerial::tryConnect()
     return true;
 }
 
+void LinkSerial::writeBytesThreadSafe(QByteArray &bytes)
+{
+    if(_pPort && _pPort->isOpen())
+    {
+        (void)_pPort->write(bytes);
+    }
+}
+
 void LinkSerial::linkError(QSerialPort::SerialPortError error)
 {
     qDebug() << error;
@@ -76,7 +84,7 @@ void LinkSerial::_readBytes(void)
             QByteArray buffer{};
             buffer.resize(byteCount);
             _pPort->read(buffer.data(), buffer.size());
-//            qDebug() << buffer << '\n';
+            emit receiveBytes(this, buffer);
         }
     }
     else

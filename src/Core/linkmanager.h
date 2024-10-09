@@ -9,8 +9,8 @@
 
 #include <QDebug>
 
-#include "linkserial.h"
 
+class LinkSerial;
 
 
 class LinkManager : public QObject
