@@ -27,7 +27,7 @@ public:
 
     void init();
 
-    bool sendTest(LinkSerial *link);
+    bool tryConnect(LinkSerial *link);
 
 signals:
 

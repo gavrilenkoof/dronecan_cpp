@@ -9,8 +9,6 @@ find_package(Qt6
 qt_add_library(Connection STATIC
     linkserial.h
     linkserial.cc
-    serialcan.h
-    serialcan.cc
 )
 
 

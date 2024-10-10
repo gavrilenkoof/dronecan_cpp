@@ -87,7 +87,7 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
         return;
     }
 
-    if(!_pLink->tryConnect())
+    if(!_pLink->hardwareInit())
     {
         _pLink.reset();
         qDebug() << "Error: connection failed";
@@ -97,7 +97,7 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
 
     (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCAN::onRecieveBytes);
 
-    slcan->sendTest(_pLink.get());
+    slcan->tryConnect(_pLink.get());
 
 }
 

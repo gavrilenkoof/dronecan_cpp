@@ -21,11 +21,11 @@ void SerialCAN::init()
 
 }
 
-bool SerialCAN::sendTest(LinkSerial *link)
+bool SerialCAN::tryConnect(LinkSerial *link)
 {
-    QByteArray ba("Hello");
+//    QByteArray ba("Hello");
 
-    link->writeBytesThreadSafe(ba);
+//    link->writeBytesThreadSafe(ba);
 
     return true;
 }

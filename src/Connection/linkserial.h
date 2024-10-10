@@ -16,9 +16,10 @@ public:
     LinkSerial(QString &portName, int &busNumber, int &canBusBitrate, int &adapterSpeed, QObject *parent = nullptr);
     virtual ~LinkSerial();
 
-    bool tryConnect(void);
 
-    void writeBytesThreadSafe(QByteArray &bytes);
+    bool hardwareInit(void);
+
+    void writeBytesThreadSafe(QByteArray &data);
 
 protected:
 
@@ -31,7 +32,7 @@ public slots:
 
 private slots:
     void _readBytes(void);
-
+    void _writeBytes(QByteArray const &data);
 
 private:
     QString _portName{};

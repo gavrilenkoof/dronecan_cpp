@@ -30,7 +30,7 @@ qt_add_executable(appdronecan_cpp
 
 
 add_subdirectory(src)
-
+add_subdirectory(lib)
 
 #qt_add_qml_module(appdronecan_cpp
 #    URI dronecan_cpp
