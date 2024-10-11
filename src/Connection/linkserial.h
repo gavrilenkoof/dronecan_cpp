@@ -12,6 +12,16 @@
 class LinkSerial : public QThread
 {
     Q_OBJECT
+
+public:
+
+    Q_PROPERTY(int canBaud READ canBaud CONSTANT)
+
+    int canBaud(void)
+    {
+        return _canBusBitrate;
+    }
+
 public:
     LinkSerial(QString &portName, int &busNumber, int &canBusBitrate, int &adapterSpeed, QObject *parent = nullptr);
     virtual ~LinkSerial();
@@ -20,6 +30,8 @@ public:
     bool hardwareInit(void);
 
     void writeBytesThreadSafe(QByteArray &data);
+
+    void waitForReadyRead(int msec = 50);
 
 protected:
 

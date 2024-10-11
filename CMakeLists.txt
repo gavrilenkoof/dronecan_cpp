@@ -29,8 +29,9 @@ qt_add_executable(appdronecan_cpp
 )
 
 
-add_subdirectory(src)
+
 add_subdirectory(lib)
+add_subdirectory(src)
 
 #qt_add_qml_module(appdronecan_cpp
 #    URI dronecan_cpp
@@ -47,10 +48,12 @@ add_subdirectory(lib)
 #)
 
 target_link_libraries(appdronecan_cpp
+    PUBLIC
+        dronecan_cpp
     PRIVATE
         Qt6::Quick
         Qt6::SerialPort
-        dronecan_cpp
+
 )
 
 

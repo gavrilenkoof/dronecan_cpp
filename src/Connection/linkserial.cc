@@ -62,6 +62,12 @@ bool LinkSerial::hardwareInit()
 void LinkSerial::writeBytesThreadSafe(QByteArray &data)
 {
     (void)QMetaObject::invokeMethod(this, "_writeBytes", Qt::AutoConnection, data);
+
+}
+
+void LinkSerial::waitForReadyRead(int msec)
+{
+    _pPort->waitForReadyRead(msec);
 }
 
 void LinkSerial::linkError(QSerialPort::SerialPortError error)
@@ -95,6 +101,7 @@ void LinkSerial::_writeBytes(const QByteArray &data)
 
     if(_pPort && _pPort->isOpen())
     {
-        (void)_pPort->write(data);
+//        qDebug() << data;
+        _pPort->write(data);
     }
 }

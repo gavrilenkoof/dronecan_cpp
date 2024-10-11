@@ -9,8 +9,8 @@ find_package(Qt6
 qt_add_library(Core STATIC
     linkmanager.h
     linkmanager.cc
-    serialcan.h
-    serialcan.cc
+    serialcanwrap.h
+    serialcanwrap.cc
 )
 
 
@@ -24,7 +24,7 @@ target_link_libraries(Core
         Qt6::QuickWidgets
         Qt6::Widgets
         Qt6::SerialPort
-        SLCAN
+        slcan
 )
 
 
@@ -32,5 +32,5 @@ target_link_libraries(Core
 target_include_directories(Core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${SLCAN_CPP_SOURCE_DIR}
+        ${slcan_SOURCE_DIR}
 )

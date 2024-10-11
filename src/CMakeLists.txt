@@ -16,7 +16,6 @@ qt_add_library(dronecan_cpp STATIC
 )
 
 
-
 add_subdirectory(Core)
 add_subdirectory(QmlControls)
 add_subdirectory(Connection)

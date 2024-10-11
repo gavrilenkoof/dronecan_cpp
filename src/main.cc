@@ -8,9 +8,9 @@
 int main(int argc, char *argv[])
 {
 
+    qSetMessagePattern("%{type} (%{file}:%{line}): %{message}\n");
+
     DronecanApp app(argc, argv);
-
-
     app.init();
 
 

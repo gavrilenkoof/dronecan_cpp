@@ -2,7 +2,7 @@
 
 #include "linkserial.h"
 #include "toolbox.h"
-#include "serialcan.h"
+#include "serialcanwrap.h"
 
 
 LinkManager* LinkManager::_instance = nullptr;
@@ -21,6 +21,11 @@ LinkManager::~LinkManager()
     _pTimerPortsChecker->stop();
 
     delete _pTimerPortsChecker;
+}
+
+void LinkManager::statusConnect()
+{
+    qDebug() << "status connect";
 }
 
 void LinkManager::init()
@@ -95,7 +100,9 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
 
     auto slcan = ToolBox::getInstance()->slcan();
 
-    (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCAN::onRecieveBytes);
+    (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCANWrap::onRecieveBytes);
+    (void)connect(slcan, &SerialCANWrap::statusConnect, this, &LinkManager::statusConnect);
+
 
     slcan->tryConnect(_pLink.get());
 
