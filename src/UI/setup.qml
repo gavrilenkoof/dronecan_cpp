@@ -3,7 +3,11 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQml
 
+import QmlControls
 import ToolBox
+
+
+
 
 Window {
     id: setupWindow
@@ -340,14 +344,14 @@ Window {
             Layout.preferredHeight: mainGrid.height * 0.06
             Layout.preferredWidth: mainGrid.width
 
-            Button {
+            DCButton {
                 id: acceptBtn
 
                 width: parent.width
                 height: parent.height
 
                 text: "OK"
-                palette.buttonText: dcPallete.text
+//                palette.buttonText: dcPallete.text
 
                 onClicked: connectionHandler()
 
@@ -362,6 +366,8 @@ Window {
                 }
 
             }
+
+
 
 
         }

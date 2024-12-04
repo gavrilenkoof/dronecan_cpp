@@ -95,16 +95,25 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
     if(!_pLink->hardwareInit())
     {
         _pLink.reset();
-        qDebug() << "Error: connection failed";
+        qDebug() << "Error: hardware init failed";
     }
 
     auto slcan = ToolBox::getInstance()->slcan();
 
     (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCANWrap::onRecieveBytes);
-    (void)connect(slcan, &SerialCANWrap::statusConnect, this, &LinkManager::statusConnect);
+//    (void)connect(slcan, &SerialCANWrap::statusConnect, this, &LinkManager::statusConnect);
 
 
-    slcan->tryConnect(_pLink.get());
+    if(!slcan->tryConnect(_pLink.get()))
+    {
+        _pLink.reset();
+        qDebug() << "Error: connect to adapter failed";
+        return;
+    }
+
+
+    // if we are here, we almost have done init boilerplate code
+
 
 }
 

@@ -60,6 +60,11 @@ public:
 
     void init();
 
+    QQmlApplicationEngine *getQmlEngine(void)
+    {
+        return _pQmlEngine;
+    }
+
 private:
     ToolBox(QObject *app = nullptr);
     ~ToolBox();
@@ -71,6 +76,7 @@ private:
     LinkManager *_pLinkManager{nullptr};
     DCPallete *_pPall{nullptr};
     SerialCANWrap *_pSlcan{nullptr};
+    QQmlApplicationEngine *_pQmlEngine{nullptr};
 
 
 signals:

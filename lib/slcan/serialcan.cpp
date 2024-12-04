@@ -66,10 +66,7 @@ int Serialcan::setCanBaud(int speed, char *cmd, size_t len)
         idx = baud2idx.at(speed);
     }
 
-    (void)sprintf(cmd, "S%d%c", idx, CARRIAGE_RET);
-
-
-    return 1;
+    return sprintf(cmd, "S%d%c", idx, CARRIAGE_RET);
 }
 
 int Serialcan::setEmptyCmd(char *cmd, size_t len)
@@ -79,8 +76,7 @@ int Serialcan::setEmptyCmd(char *cmd, size_t len)
         return 0;
     }
 
-    (void)sprintf(cmd, "%c", CARRIAGE_RET);
-    return 1;
+    return sprintf(cmd, "%c", CARRIAGE_RET);
 }
 
 int Serialcan::setDisableCanCmd(char *cmd, size_t len)
@@ -91,9 +87,31 @@ int Serialcan::setDisableCanCmd(char *cmd, size_t len)
         return 0;
     }
 
-    (void)sprintf(cmd, "C%c", CARRIAGE_RET);
-    return 1;
+    return sprintf(cmd, "C%c", CARRIAGE_RET);;
 
+}
+
+int Serialcan::setOpenChannel(char *cmd, size_t len)
+{
+
+    if(len < 3)
+    {
+        return 0;
+    }
+
+    return sprintf(cmd, "O%c", CARRIAGE_RET);
+
+
+}
+
+int Serialcan::setClearErrorFlags(char *cmd, size_t len)
+{
+    if(len < 3)
+    {
+        return 0;
+    }
+
+    return sprintf(cmd, "F%c", CARRIAGE_RET);
 }
 
 

@@ -31,6 +31,8 @@ public:
     int setCanBaud(int speed, char *cmd, size_t len);
     int setEmptyCmd(char *cmd, size_t len);
     int setDisableCanCmd(char *cmd, size_t len);
+    int setOpenChannel(char *cmd, size_t len);
+    int setClearErrorFlags(char *cmd, size_t len);
 
 private:
 

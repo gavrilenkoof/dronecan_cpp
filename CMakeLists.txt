@@ -28,6 +28,10 @@ qt_add_executable(appdronecan_cpp
     ${QGC_RESOURCES}
 )
 
+qt_policy(
+    SET QTP0001 NEW
+    SET QTP0002 NEW
+)
 
 
 add_subdirectory(lib)
