@@ -18,6 +18,7 @@ qt_add_qml_module(QmlControls
     URI QmlControls
     QML_FILES
         DCButton.qml
+        DCComboBox.qml
     VERSION 1.0
 )
 

@@ -87,57 +87,47 @@ Window {
                     implicitWidth: selectSerial.width
 
 
-                    ComboBox {
+                    DCComboBox {
                         id: serialComboBox
 
                         implicitHeight: selectSerial.height * 0.5
                         implicitWidth: selectSerial.width
 
 
-                        contentItem: Text {
-                            text: parent.displayText
-//                                    font.family: "Arial";
-//                                    font.pixelSize: 39;
-                            color: dcPallete.text
-                            verticalAlignment: Text.AlignVCenter;
-//                            horizontalAlignment: Text.AlignHCenter;
-                            leftPadding: 5
-                            elide: Text.ElideRight
-                        }
-
-
-                        ListModel {
-                            id: listModel
-                            ListElement {
-                                text:""
-                            }
-                        }
-
-                        model: listModel
-                        currentIndex: -1
-
+//                        contentItem: Text {
+//                            text: parent.displayText
+////                                    font.family: "Arial";
+////                                    font.pixelSize: 39;
+//                            color: dcPallete.text
+//                            verticalAlignment: Text.AlignVCenter;
+////                            horizontalAlignment: Text.AlignHCenter;
+//                            leftPadding: 5
+//                            elide: Text.ElideRight
+//                        }
 
                         Connections {
                             target: linkManager
 
                             function onPortsChanged()
                             {
-
-                                serialComboBox.model.clear()
+                                var serialPorts = []
+                                var index = 0
                                 for(var port_desc in linkManager.ports)
                                 {
-                                    serialComboBox.model.append({text: port_desc})
+                                    serialPorts.push(port_desc)
                                 }
 
-                                serialComboBox.currentIndex = 0
+                                if(serialPorts.length === 0)
+                                {
+                                    index = -1
+                                }
+
+                                serialComboBox.model = serialPorts
+                                serialComboBox.currentIndex = index
 
                             }
 
-
                         }
-
-//                        onCurrentValueChanged: console.log(currentValue)
-
                     }
 
 
@@ -347,11 +337,10 @@ Window {
             DCButton {
                 id: acceptBtn
 
-                width: parent.width
-                height: parent.height
+                implicitWidth: parent.width
+                implicitHeight: parent.height
 
                 text: "OK"
-//                palette.buttonText: dcPallete.text
 
                 onClicked: connectionHandler()
 

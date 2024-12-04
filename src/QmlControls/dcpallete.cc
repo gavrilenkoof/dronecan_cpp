@@ -32,6 +32,7 @@ void DCPallete::_buildColorMap()
     colorMap[QStringLiteral("buttonBorder")] = QColor(QStringLiteral("#222222"));
     colorMap[QStringLiteral("buttonText")] = QColor(QStringLiteral("#ffffff"));
     colorMap[QStringLiteral("buttonHighlight")] = QColor(QStringLiteral("#222222"));
+    colorMap[QStringLiteral("buttonHighlightText")] = QColor(QStringLiteral("#000000"));
 //    colorMap[QStringLiteral("buttonText")] = QColor(QStringLiteral("#ffffff"));
 
 }

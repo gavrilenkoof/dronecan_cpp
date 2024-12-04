@@ -25,6 +25,7 @@ public:
     Q_PROPERTY(QColor buttonBorder READ buttonBorder CONSTANT)
     Q_PROPERTY(QColor buttonText READ buttonText CONSTANT)
     Q_PROPERTY(QColor buttonHighlight READ buttonHighlight CONSTANT)
+    Q_PROPERTY(QColor buttonHighlightText READ buttonHighlightText CONSTANT)
 
 
     QColor window(void)
@@ -60,6 +61,11 @@ public:
     QColor buttonHighlight(void)
     {
         return colorMap["buttonHighlight"];
+    }
+
+    QColor buttonHighlightText(void)
+    {
+        return colorMap["buttonHighlightText"];
     }
 
 public:

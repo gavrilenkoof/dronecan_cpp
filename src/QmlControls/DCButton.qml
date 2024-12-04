@@ -4,8 +4,6 @@ import QtQuick.Layouts
 
 import ToolBox
 
-//import QGroundControl.Palette
-//import QGroundControl.ScreenTools
 
 Button {
     id: control
@@ -28,8 +26,8 @@ Button {
 
     background: Rectangle {
         id: backRect
-        implicitHeight: control.height
-        implicitWidth: control.width
+        height: control.height
+        width: control.width
         border.width: 1
         border.color: dcPallete.buttonBorder
         color: dcPallete.button
