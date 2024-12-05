@@ -9,8 +9,8 @@ find_package(Qt6
 qt_add_library(Core STATIC
     linkmanager.h
     linkmanager.cc
-    serialcanwrap.h
-    serialcanwrap.cc
+    serialcan.h
+    serialcan.cc
 )
 
 
@@ -24,7 +24,6 @@ target_link_libraries(Core
         Qt6::QuickWidgets
         Qt6::Widgets
         Qt6::SerialPort
-        slcan
 )
 
 

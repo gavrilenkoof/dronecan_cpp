@@ -8,12 +8,12 @@
 
 Q_MOC_INCLUDE("linkmanager.h")
 Q_MOC_INCLUDE("dcpallete.h")
-Q_MOC_INCLUDE("serialcanwrap.h")
+Q_MOC_INCLUDE("serialcan.h")
 
 
 class LinkManager;
 class DCPallete;
-class SerialCANWrap;
+class SerialCAN;
 
 
 class ToolBox : public QObject
@@ -22,7 +22,7 @@ class ToolBox : public QObject
 public:
     Q_PROPERTY(DCPallete* pallete READ pallete CONSTANT)
     Q_PROPERTY(LinkManager* linkManager READ linkManager CONSTANT)
-    Q_PROPERTY(SerialCANWrap* slcan READ slcan CONSTANT)
+    Q_PROPERTY(SerialCAN* slcan READ slcan CONSTANT)
 
 
     LinkManager *linkManager(void)
@@ -35,7 +35,7 @@ public:
         return _pPall;
     }
 
-    SerialCANWrap *slcan(void)
+    SerialCAN *slcan(void)
     {
         return _pSlcan;
     }
@@ -75,7 +75,7 @@ private:
 
     LinkManager *_pLinkManager{nullptr};
     DCPallete *_pPall{nullptr};
-    SerialCANWrap *_pSlcan{nullptr};
+    SerialCAN *_pSlcan{nullptr};
     QQmlApplicationEngine *_pQmlEngine{nullptr};
 
 

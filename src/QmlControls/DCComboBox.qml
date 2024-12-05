@@ -7,6 +7,11 @@ import ToolBox
 ComboBox {
     id: control
 
+
+    property int textVerticalAlignment: Text.AlignVCenter
+    property int textHorizontalAlignment: Text.AlignLeft
+
+
     readonly property var dcPallete : ToolBox.pallete
 
 
@@ -16,7 +21,8 @@ ComboBox {
         text: control.displayText
         font: control.font
         color: dcPallete.text
-        verticalAlignment: Text.AlignVCenter
+        verticalAlignment: textVerticalAlignment
+        horizontalAlignment: textHorizontalAlignment
         elide: Text.ElideRight
     }
 
@@ -29,11 +35,12 @@ ComboBox {
         width: control.width
 
         contentItem: Text {
+            leftPadding: 2
             text: delegate.model[control.textRole]
             color: dcPallete.text
             font: control.font
             elide: Text.ElideRight
-            verticalAlignment: Text.AlignVCenter
+            verticalAlignment: textVerticalAlignment
         }
 
         background: Rectangle {

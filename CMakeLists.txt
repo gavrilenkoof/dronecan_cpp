@@ -34,7 +34,6 @@ qt_policy(
 )
 
 
-add_subdirectory(lib)
 add_subdirectory(src)
 
 #qt_add_qml_module(appdronecan_cpp

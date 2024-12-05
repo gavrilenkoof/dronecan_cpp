@@ -2,7 +2,7 @@
 
 #include "linkserial.h"
 #include "toolbox.h"
-#include "serialcanwrap.h"
+#include "serialcan.h"
 
 
 LinkManager* LinkManager::_instance = nullptr;
@@ -82,7 +82,7 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
 
     // TODO add data validator
 
-    qDebug() << portName << " " << adapterSpeed;
+//    qDebug() << portName << " " << adapterSpeed;
 
     _pLink = std::make_unique<LinkSerial>(portName, busNumber, canBusBitrate, adapterSpeed);
 
@@ -100,9 +100,7 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
 
     auto slcan = ToolBox::getInstance()->slcan();
 
-    (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCANWrap::onRecieveBytes);
-//    (void)connect(slcan, &SerialCANWrap::statusConnect, this, &LinkManager::statusConnect);
-
+    (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCAN::onRecieveBytes);
 
     if(!slcan->tryConnect(_pLink.get()))
     {
@@ -111,10 +109,7 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
         return;
     }
 
-
-    // if we are here, we almost have done init boilerplate code
-
-
+    // emit signal about succesfull connect to the device
 }
 
 QVariantMap LinkManager::ports(void)
