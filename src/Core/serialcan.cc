@@ -1,5 +1,6 @@
 #include "serialcan.h"
 
+
 SerialCAN *SerialCAN::_instance{nullptr};
 
 
@@ -134,11 +135,12 @@ void SerialCAN::_addByte(LinkSerial *link, char const &byte)
 
 bool SerialCAN::_processCommand(serialBuffer &cmd, QByteArray &response)
 {
-//    qDebug() << cmd.data();
+//
 
     // high traffic commans go first
     if(cmd[0] == 'T' || cmd[0] == 'D')
     {
+//        qDebug() << cmd.data();
         bool status = _handleFrameDataExt(cmd, cmd[0] == 'D');
         response.resize(5);
         if(status)
@@ -222,9 +224,39 @@ bool SerialCAN::_handleFrameDataExt(serialBuffer &cmd, bool canfd)
     bool hex2nibble_error{false};
 
     f.canfd = canfd;
-//    f.id = f.FlagEFF |
+    f.id = f.FlagEFF |
+            (hex2nibble(cmd[1], hex2nibble_error) << 28) |
+            (hex2nibble(cmd[2], hex2nibble_error) << 24) |
+            (hex2nibble(cmd[3], hex2nibble_error) << 20) |
+            (hex2nibble(cmd[4], hex2nibble_error) << 16) |
+            (hex2nibble(cmd[5], hex2nibble_error) << 12) |
+            (hex2nibble(cmd[6], hex2nibble_error) << 8) |
+            (hex2nibble(cmd[7], hex2nibble_error) << 4) |
+            (hex2nibble(cmd[8], hex2nibble_error) << 0);
 
+    f.dlc = hex2nibble(cmd[9], hex2nibble_error);
 
+    if (hex2nibble_error || f.dlc > (canfd ? 15 : 8))
+    {
+        return false;
+    }
+
+    const char *p = &cmd[10];
+    const uint8_t dlen = CANFrame::dataLengthToDlc(f.dlc);
+    for(uint8_t i = 0; i < dlen; ++i)
+    {
+        f.data[i] = (hex2nibble(*p, hex2nibble_error) << 4) | hex2nibble(*(p + 1), hex2nibble_error);
+        p += 2;
+    }
+
+//    qDebug() << f.data[0] << f.data[1] << f.data[2];
+
+    if(hex2nibble_error)
+    {
+        return false;
+    }
+
+    _rx_queue.push(f);
 
     return true;
 }
@@ -273,7 +305,22 @@ void SerialCAN::onRecieveBytes(LinkSerial *link, QByteArray bytes)
         for(char &byte: bytes)
         {
             _addByte(link, byte);
+
+            if(_rx_queue.size() >= RX_QUEUE_MAX)
+            {
+                break;
+            }
+
         }
+
+        CANFrame frame;
+        while(!_rx_queue.empty())
+        {
+            frame = _rx_queue.front();
+            _rx_queue.pop();
+            emit canframeReceived(frame);
+        }
+
     }
 
 

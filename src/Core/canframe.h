@@ -74,9 +74,49 @@ struct CANFrame
         return canfd;
     }
 
-    static uint8_t dlcToDataLength(uint8_t dlc);
+    static uint8_t dlcToDataLength(uint8_t dlc)
+    {
+        /*
+        Data Length Code      9  10  11  12  13  14  15
+        Number of data bytes 12  16  20  24  32  48  64
+        */
+        if (dlc <= 8) {
+            return dlc;
+        } else if (dlc == 9) {
+            return 12;
+        } else if (dlc == 10) {
+            return 16;
+        } else if (dlc == 11) {
+            return 20;
+        } else if (dlc == 12) {
+            return 24;
+        } else if (dlc == 13) {
+            return 32;
+        } else if (dlc == 14) {
+            return 48;
+        }
+        return 64;
+    };
 
-    static uint8_t dataLengthToDlc(uint8_t data_length);
+    static uint8_t dataLengthToDlc(uint8_t data_length)
+    {
+        if (data_length <= 8) {
+            return data_length;
+        } else if (data_length <= 12) {
+            return 9;
+        } else if (data_length <= 16) {
+            return 10;
+        } else if (data_length <= 20) {
+            return 11;
+        } else if (data_length <= 24) {
+            return 12;
+        } else if (data_length <= 32) {
+            return 13;
+        } else if (data_length <= 48) {
+            return 14;
+        }
+        return 15;
+    };
     /**
      * CAN frame arbitration rules, particularly STD vs EXT:
      *     Marco Di Natale - "Understanding and using the Controller Area Network"

@@ -5,9 +5,11 @@
 #include <QDebug>
 #include <array>
 #include <utility>
+#include <queue>
 
 #include "linkserial.h"
 #include "canframe.h"
+
 
 
 
@@ -36,6 +38,8 @@ public:
 signals:
     void statusConnect();
 
+    void canframeReceived(CANFrame frame);
+
 public slots:
     void onRecieveBytes(LinkSerial *link, QByteArray bytes);
 
@@ -48,6 +52,7 @@ private:
     static constexpr char CARRIAGE_RET = '\r';
     static constexpr char A_SYBMOL = '\a';
     static constexpr int SLCAN_BUFFER_SIZE = 200;
+    static constexpr int RX_QUEUE_MAX = 200;
 
     typedef std::array<char, SLCAN_BUFFER_SIZE> serialBuffer;
 
@@ -92,6 +97,8 @@ private:
 
     int _pos{0};
     serialBuffer _buf{};
+
+    std::queue<CANFrame> _rx_queue{};
 
 
 };
