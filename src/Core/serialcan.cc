@@ -61,38 +61,38 @@ bool SerialCAN::tryConnect(LinkSerial *link)
 
 int SerialCAN::_setEmptyCmd(QByteArray &cmd)
 {
-    cmd.resize(1);
-    return sprintf(cmd.data(), "%c", CARRIAGE_RET);
+    cmd.resize(2);
+    return snprintf(cmd.data(), 2, "%c", CARRIAGE_RET);
 }
 
 int SerialCAN::_setDisableCanCmd(QByteArray &cmd)
 {
-    cmd.resize(2);
-    return sprintf(cmd.data(), "C%c", CARRIAGE_RET);
+    cmd.resize(3);
+    return snprintf(cmd.data(), 3, "C%c", CARRIAGE_RET);
 }
 
 int SerialCAN::_setCanBaud(int speed, QByteArray &cmd)
 {
-    cmd.resize(3);
+    cmd.resize(4);
     int idx = 8;
     if(_baud2idx.find(speed) != _baud2idx.end())
     {
         idx = _baud2idx.at(speed);
     }
 
-    return sprintf(cmd.data(), "S%d%c", idx, CARRIAGE_RET);
+    return snprintf(cmd.data(), 4, "S%d%c", idx, CARRIAGE_RET);
 }
 
 int SerialCAN::_setOpenChannel(QByteArray &cmd)
 {
-    cmd.resize(2);
-    return sprintf(cmd.data(), "O%c", CARRIAGE_RET);
+    cmd.resize(3);
+    return snprintf(cmd.data(), 3, "O%c", CARRIAGE_RET);
 }
 
 int SerialCAN::_setClearErrorFlags(QByteArray &cmd)
 {
-    cmd.resize(2);
-    return sprintf(cmd.data(), "F%c", CARRIAGE_RET);
+    cmd.resize(3);
+    return snprintf(cmd.data(), 3, "F%c", CARRIAGE_RET);
 }
 
 void SerialCAN::_addByte(LinkSerial *link, char const &byte)
@@ -134,11 +134,13 @@ void SerialCAN::_addByte(LinkSerial *link, char const &byte)
 
 bool SerialCAN::_processCommand(serialBuffer &cmd, QByteArray &response)
 {
+//    qDebug() << cmd.data();
 
     // high traffic commans go first
     if(cmd[0] == 'T' || cmd[0] == 'D')
     {
-//        _handleFrameDataExt();
+        bool status = _handleFrameDataExt(cmd, cmd[0] == 'D');
+
         return true;
     }
     else if(cmd[0] == 't')
@@ -165,23 +167,49 @@ bool SerialCAN::_processCommand(serialBuffer &cmd, QByteArray &response)
     case 'm':               // Set CAN acceptance filter mask
     case 'U':               // Set UART baud rate, see http://www.can232.com/docs/can232_v3.pdf
     case 'Z':               // Enable/disable RX and loopback timestamping
-//        return _getASCIIStatusCode(true);    // Returning success for compatibility reasons
+        response.resize(3);
+        snprintf(response.data(), 2, "%c", _getASCIIStatusCode(true));
         return true;
-    case 'F':
-        // _getHWSWversion();
-//        _getStatusFlags();
+    case 'F':               // Get status flags
+        response.resize(4);
+        snprintf(response.data(), 4, "F%d%c", _getStatusFlags(), CARRIAGE_RET);
         return true;
-    case 'V':
-       // _getHWSWversion();
-        return true;
+    case 'V':               // HW/SW version
+       response.resize(7);
+       snprintf(response.data(), 7, "V%x%x%x%x%c", 1, 0, 1, 0, CARRIAGE_RET);
+       return true;
     case 'N':
-//        _getSerialNumber();
+        response.resize(10);
+        snprintf(response.data(), 10, "N%s%c", _getSerialNumber().toStdString().data(), CARRIAGE_RET);
         return true;
     default:
         break;
     }
 
-    return false;
+    response.resize(3);
+    snprintf(response.data(), 2, "%c", _getASCIIStatusCode(false));
+
+    return true;
+}
+
+char SerialCAN::_getASCIIStatusCode(bool status)
+{
+    return status ? '\r' : '\a';
+}
+
+char SerialCAN::_getStatusFlags()
+{
+    return 0; // Returning success for compatibility reasons
+}
+
+QString SerialCAN::_getSerialNumber()
+{
+    return QString("1.0");
+}
+
+bool SerialCAN::_handleFrameDataExt(serialBuffer &cmd, bool canfd)
+{
+    return true;
 }
 
 void SerialCAN::onRecieveBytes(LinkSerial *link, QByteArray bytes)

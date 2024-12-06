@@ -45,6 +45,7 @@ private:
 
 private:
     static constexpr char CARRIAGE_RET = '\r';
+    static constexpr char A_SYBMOL = '\a';
     static constexpr int SLCAN_BUFFER_SIZE = 200;
 
     typedef std::array<char, SLCAN_BUFFER_SIZE> serialBuffer;
@@ -58,6 +59,12 @@ private:
     void _addByte(LinkSerial *link, char const &byte);
 //    QByteArray _processCommand(serialBuffer &cmd);
     bool _processCommand(serialBuffer &cmd, QByteArray &response);
+
+    char _getASCIIStatusCode(bool status);
+    char _getStatusFlags(void);
+    QString _getSerialNumber(void);
+
+    bool _handleFrameDataExt(serialBuffer &cmd, bool canfd);
 
 private:
 
