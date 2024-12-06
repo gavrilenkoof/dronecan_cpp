@@ -14,11 +14,11 @@ int main(int argc, char *argv[])
     app.init();
 
 
-    auto exec_2 = app.execSetup();
+    // auto exec_2 = app.execSetup();
 
-//    app.execApp();
+    auto exec = app.execApp();
 
-    return exec_2;
+    return exec;
 
 }
 
