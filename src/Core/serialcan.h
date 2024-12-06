@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "linkserial.h"
+#include "canframe.h"
 
 
 
@@ -57,7 +58,6 @@ private:
     int _setOpenChannel(QByteArray &cmd);
     int _setClearErrorFlags(QByteArray &cmd);
     void _addByte(LinkSerial *link, char const &byte);
-//    QByteArray _processCommand(serialBuffer &cmd);
     bool _processCommand(serialBuffer &cmd, QByteArray &response);
 
     char _getASCIIStatusCode(bool status);
@@ -65,6 +65,8 @@ private:
     QString _getSerialNumber(void);
 
     bool _handleFrameDataExt(serialBuffer &cmd, bool canfd);
+
+    uint8_t hex2nibble(char c, bool &hex2nibble_error);
 
 private:
 

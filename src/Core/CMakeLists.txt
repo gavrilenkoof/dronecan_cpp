@@ -11,6 +11,7 @@ qt_add_library(Core STATIC
     linkmanager.cc
     serialcan.h
     serialcan.cc
+    canframe.h
 )
 
 

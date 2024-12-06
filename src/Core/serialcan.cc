@@ -140,7 +140,15 @@ bool SerialCAN::_processCommand(serialBuffer &cmd, QByteArray &response)
     if(cmd[0] == 'T' || cmd[0] == 'D')
     {
         bool status = _handleFrameDataExt(cmd, cmd[0] == 'D');
-
+        response.resize(5);
+        if(status)
+        {
+            snprintf(response.data(), 3, "Z%c", CARRIAGE_RET);
+        }
+        else
+        {
+            snprintf(response.data(), 2, "%c", A_SYBMOL);
+        }
         return true;
     }
     else if(cmd[0] == 't')
@@ -209,7 +217,43 @@ QString SerialCAN::_getSerialNumber()
 
 bool SerialCAN::_handleFrameDataExt(serialBuffer &cmd, bool canfd)
 {
+
+    CANFrame f{};
+    bool hex2nibble_error{false};
+
+    f.canfd = canfd;
+//    f.id = f.FlagEFF |
+
+
+
     return true;
+}
+
+uint8_t SerialCAN::hex2nibble(char c, bool &hex2nibble_error)
+{
+    // Must go into RAM, not flash, because flash is slow
+    static uint8_t NumConversionTable[] = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+    };
+
+    static uint8_t AlphaConversionTable[] = {
+        10, 11, 12, 13, 14, 15
+    };
+
+    uint8_t out = 255;
+
+    if (c >= '0' && c <= '9') {
+        out = NumConversionTable[int(c) - int('0')];
+    } else if (c >= 'a' && c <= 'f') {
+        out = AlphaConversionTable[int(c) - int('a')];
+    } else if (c >= 'A' && c <= 'F') {
+        out = AlphaConversionTable[int(c) - int('A')];
+    }
+
+    if (out == 255) {
+        hex2nibble_error = true;
+    }
+    return out;
 }
 
 void SerialCAN::onRecieveBytes(LinkSerial *link, QByteArray bytes)
