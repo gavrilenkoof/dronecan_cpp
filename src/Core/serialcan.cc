@@ -7,12 +7,12 @@ SerialCAN *SerialCAN::_instance{nullptr};
 SerialCAN::SerialCAN(QObject *parent)
     : QObject(parent)
 {
-//    _slcan = new slcan::Serialcan();
+
 }
 
 SerialCAN::~SerialCAN()
 {
-//    delete _slcan;
+
 }
 
 
@@ -117,7 +117,12 @@ void SerialCAN::_addByte(LinkSerial *link, char const &byte)
     else if(byte == '\r') // End of command (SLCAN)
     {
         _buf[_pos] = '\0';
-
+        QByteArray response;
+        if(_processCommand(_buf, response))
+        {
+            link->writeBytesThreadSafe(response);
+        }
+        _pos = 0;
     }
     else
     {
@@ -125,6 +130,58 @@ void SerialCAN::_addByte(LinkSerial *link, char const &byte)
     }
 
 
+}
+
+bool SerialCAN::_processCommand(serialBuffer &cmd, QByteArray &response)
+{
+
+    // high traffic commans go first
+    if(cmd[0] == 'T' || cmd[0] == 'D')
+    {
+//        _handleFrameDataExt();
+        return true;
+    }
+    else if(cmd[0] == 't')
+    {
+//        _handleFrameDataStd();
+        return true;
+    }
+    else if(cmd[0] == 'r' && cmd[1] <= 9)
+    {
+//        _handleRtrStd()
+        return true;
+    }
+//    else if()
+
+    // regular slcan commands
+    switch (cmd[0])
+    {
+    case 'S':               // Set CAN bitrate
+    case 'O':               // Open CAN in normal mode
+    case 'L':               // Open CAN in listen-only mode
+    case 'l':               // Open CAN with loopback enabled
+    case 'C':               // Close CAN
+    case 'M':               // Set CAN acceptance filter ID
+    case 'm':               // Set CAN acceptance filter mask
+    case 'U':               // Set UART baud rate, see http://www.can232.com/docs/can232_v3.pdf
+    case 'Z':               // Enable/disable RX and loopback timestamping
+//        return _getASCIIStatusCode(true);    // Returning success for compatibility reasons
+        return true;
+    case 'F':
+        // _getHWSWversion();
+//        _getStatusFlags();
+        return true;
+    case 'V':
+       // _getHWSWversion();
+        return true;
+    case 'N':
+//        _getSerialNumber();
+        return true;
+    default:
+        break;
+    }
+
+    return false;
 }
 
 void SerialCAN::onRecieveBytes(LinkSerial *link, QByteArray bytes)

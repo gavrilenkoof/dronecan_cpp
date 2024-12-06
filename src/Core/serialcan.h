@@ -4,10 +4,10 @@
 #include <QObject>
 #include <QDebug>
 #include <array>
+#include <utility>
 
 #include "linkserial.h"
 
-//#include "serialcan.h"
 
 
 class SerialCAN : public QObject
@@ -47,6 +47,7 @@ private:
     static constexpr char CARRIAGE_RET = '\r';
     static constexpr int SLCAN_BUFFER_SIZE = 200;
 
+    typedef std::array<char, SLCAN_BUFFER_SIZE> serialBuffer;
 
 private:
     int _setEmptyCmd(QByteArray &cmd);
@@ -55,6 +56,9 @@ private:
     int _setOpenChannel(QByteArray &cmd);
     int _setClearErrorFlags(QByteArray &cmd);
     void _addByte(LinkSerial *link, char const &byte);
+//    QByteArray _processCommand(serialBuffer &cmd);
+    bool _processCommand(serialBuffer &cmd, QByteArray &response);
+
 private:
 
     static SerialCAN *_instance;
@@ -78,7 +82,7 @@ private:
 
 
     int _pos{0};
-    std::array<char, SLCAN_BUFFER_SIZE> _buf{};
+    serialBuffer _buf{};
 
 
 };
