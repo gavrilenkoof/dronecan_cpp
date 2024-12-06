@@ -1,7 +1,8 @@
 #include "toolbox.h"
 
-#include "QmlControls/dcpallete.h"
-
+#include "linkmanager.h"
+#include "dcpallete.h"
+#include "serialcan.h"
 
 ToolBox* ToolBox::_instance = nullptr;
 
@@ -13,18 +14,24 @@ ToolBox::ToolBox(QObject *app)
 
     _pLinkManager = LinkManager::getInstance(this);
     _pPall = DCPallete::getInstance(this);
+    _pSlcan = SerialCAN::getInstance(this);
+
+    _pQmlEngine = new QQmlApplicationEngine(this);
 }
 
 ToolBox::~ToolBox()
 {
-
+    delete _pQmlEngine;
 }
 
 void ToolBox::init()
 {
-
+    _pQmlEngine->addImportPath("qrc:/qml");
     qmlRegisterSingletonType<ToolBox>("ToolBox", 1, 0, "ToolBox", ToolBox::getInstance);
+
+
 
     _pLinkManager->init();
     _pPall->init();
+    _pSlcan->init();
 }

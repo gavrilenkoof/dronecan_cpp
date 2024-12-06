@@ -29,7 +29,6 @@ signals:
 private:
 
     ToolBox *_pTools{nullptr};
-    QQmlApplicationEngine *_pQmlEngine{nullptr};
 
 //    DronecanCore *_pCore{nullptr};
 };

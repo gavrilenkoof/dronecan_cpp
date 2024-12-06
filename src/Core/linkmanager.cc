@@ -1,5 +1,9 @@
 #include "linkmanager.h"
 
+#include "linkserial.h"
+#include "toolbox.h"
+#include "serialcan.h"
+
 
 LinkManager* LinkManager::_instance = nullptr;
 
@@ -17,6 +21,11 @@ LinkManager::~LinkManager()
     _pTimerPortsChecker->stop();
 
     delete _pTimerPortsChecker;
+}
+
+void LinkManager::statusConnect()
+{
+    qDebug() << "status connect";
 }
 
 void LinkManager::init()
@@ -73,7 +82,7 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
 
     // TODO add data validator
 
-    qDebug() << portName << " " << adapterSpeed;
+//    qDebug() << portName << " " << adapterSpeed;
 
     _pLink = std::make_unique<LinkSerial>(portName, busNumber, canBusBitrate, adapterSpeed);
 
@@ -83,14 +92,24 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
         return;
     }
 
-    if(!_pLink->tryConnect())
+    if(!_pLink->hardwareInit())
     {
         _pLink.reset();
-        qDebug() << "Error: connection failed";
+        qDebug() << "Error: hardware init failed";
     }
 
-//    (void)connect(_pLink.get(), &LinkInterface::bytesReceived, this, &LinkManager::testBytesRecieved);
+    auto slcan = ToolBox::getInstance()->slcan();
 
+    (void)connect(_pLink.get(), &LinkSerial::receiveBytes, slcan, &SerialCAN::onRecieveBytes);
+
+    if(!slcan->tryConnect(_pLink.get()))
+    {
+        _pLink.reset();
+        qDebug() << "Error: connect to adapter failed";
+        return;
+    }
+
+    // emit signal about succesfull connect to the device
 }
 
 QVariantMap LinkManager::ports(void)

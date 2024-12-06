@@ -5,13 +5,13 @@ DronecanApp::DronecanApp(int &argc, char* argv[])
 {
 
     _pTools = ToolBox::getInstance(this);
-    _pQmlEngine = new QQmlApplicationEngine(this);
+
 }
 
 
 DronecanApp::~DronecanApp()
 {
-    delete _pQmlEngine;
+//    delete _pQmlEngine;
 //    qDebug() << "App destroyed";
 }
 
@@ -25,14 +25,17 @@ void DronecanApp::init()
 int DronecanApp::execApp()
 {
 
+
     const QUrl url("qrc:/qml/main.qml");
-    QObject::connect(_pQmlEngine, &QQmlApplicationEngine::objectCreated,
+    QObject::connect(_pTools->getQmlEngine(), &QQmlApplicationEngine::objectCreated,
                          this, [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
 
-    _pQmlEngine->load(url);
+    _pTools->getQmlEngine()->load(url);
+
+
 
     return this->exec();
 }
@@ -40,13 +43,13 @@ int DronecanApp::execApp()
 int DronecanApp::execSetup()
 {
     const QUrl url("qrc:/qml/setup.qml");
-    QObject::connect(_pQmlEngine, &QQmlApplicationEngine::objectCreated,
+    QObject::connect(_pTools->getQmlEngine(), &QQmlApplicationEngine::objectCreated,
                          this, [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
 
-    _pQmlEngine->load(url);
+    _pTools->getQmlEngine()->load(url);
 
     return this->exec();
 

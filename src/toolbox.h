@@ -5,9 +5,15 @@
 #include <QQmlApplicationEngine>
 #include <QtQml/qqmlregistration.h>
 
-#include "Core/linkmanager.h"
-#include "QmlControls/dcpallete.h"
 
+Q_MOC_INCLUDE("linkmanager.h")
+Q_MOC_INCLUDE("dcpallete.h")
+Q_MOC_INCLUDE("serialcan.h")
+
+
+class LinkManager;
+class DCPallete;
+class SerialCAN;
 
 
 class ToolBox : public QObject
@@ -16,6 +22,7 @@ class ToolBox : public QObject
 public:
     Q_PROPERTY(DCPallete* pallete READ pallete CONSTANT)
     Q_PROPERTY(LinkManager* linkManager READ linkManager CONSTANT)
+    Q_PROPERTY(SerialCAN* slcan READ slcan CONSTANT)
 
 
     LinkManager *linkManager(void)
@@ -26,6 +33,11 @@ public:
     DCPallete *pallete(void)
     {
         return _pPall;
+    }
+
+    SerialCAN *slcan(void)
+    {
+        return _pSlcan;
     }
 
 
@@ -48,6 +60,11 @@ public:
 
     void init();
 
+    QQmlApplicationEngine *getQmlEngine(void)
+    {
+        return _pQmlEngine;
+    }
+
 private:
     ToolBox(QObject *app = nullptr);
     ~ToolBox();
@@ -58,6 +75,8 @@ private:
 
     LinkManager *_pLinkManager{nullptr};
     DCPallete *_pPall{nullptr};
+    SerialCAN *_pSlcan{nullptr};
+    QQmlApplicationEngine *_pQmlEngine{nullptr};
 
 
 signals:

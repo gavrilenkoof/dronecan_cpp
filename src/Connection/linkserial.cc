@@ -22,7 +22,7 @@ LinkSerial::~LinkSerial()
     delete _pPort;
 }
 
-bool LinkSerial::tryConnect()
+bool LinkSerial::hardwareInit()
 {
 
     if(_pPort)
@@ -59,6 +59,17 @@ bool LinkSerial::tryConnect()
     return true;
 }
 
+void LinkSerial::writeBytesThreadSafe(QByteArray &data)
+{
+    (void)QMetaObject::invokeMethod(this, "_writeBytes", Qt::AutoConnection, data);
+
+}
+
+void LinkSerial::waitForReadyRead(int msec)
+{
+    _pPort->waitForReadyRead(msec);
+}
+
 void LinkSerial::linkError(QSerialPort::SerialPortError error)
 {
     qDebug() << error;
@@ -76,11 +87,21 @@ void LinkSerial::_readBytes(void)
             QByteArray buffer{};
             buffer.resize(byteCount);
             _pPort->read(buffer.data(), buffer.size());
-//            qDebug() << buffer << '\n';
+            emit receiveBytes(this, buffer);
         }
     }
     else
     {
         qWarning() << "Serial port is not readable";
+    }
+}
+
+void LinkSerial::_writeBytes(const QByteArray &data)
+{
+
+    if(_pPort && _pPort->isOpen())
+    {
+//        qDebug() << data;
+        _pPort->write(data);
     }
 }

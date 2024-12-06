@@ -3,7 +3,11 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQml
 
+import QmlControls
 import ToolBox
+
+
+
 
 Window {
     id: setupWindow
@@ -83,57 +87,35 @@ Window {
                     implicitWidth: selectSerial.width
 
 
-                    ComboBox {
+                    DCComboBox {
                         id: serialComboBox
 
                         implicitHeight: selectSerial.height * 0.5
                         implicitWidth: selectSerial.width
-
-
-                        contentItem: Text {
-                            text: parent.displayText
-//                                    font.family: "Arial";
-//                                    font.pixelSize: 39;
-                            color: dcPallete.text
-                            verticalAlignment: Text.AlignVCenter;
-//                            horizontalAlignment: Text.AlignHCenter;
-                            leftPadding: 5
-                            elide: Text.ElideRight
-                        }
-
-
-                        ListModel {
-                            id: listModel
-                            ListElement {
-                                text:""
-                            }
-                        }
-
-                        model: listModel
-                        currentIndex: -1
-
 
                         Connections {
                             target: linkManager
 
                             function onPortsChanged()
                             {
-
-                                serialComboBox.model.clear()
+                                var serialPorts = []
+                                var index = 0
                                 for(var port_desc in linkManager.ports)
                                 {
-                                    serialComboBox.model.append({text: port_desc})
+                                    serialPorts.push(port_desc)
                                 }
 
-                                serialComboBox.currentIndex = 0
+                                if(serialPorts.length === 0)
+                                {
+                                    index = -1
+                                }
+
+                                serialComboBox.model = serialPorts
+                                serialComboBox.currentIndex = index
 
                             }
 
-
                         }
-
-//                        onCurrentValueChanged: console.log(currentValue)
-
                     }
 
 
@@ -261,12 +243,10 @@ Window {
                                 editable: true
                                 from: 0
                                 to: 1000000
-                                value: 500000
+                                value: 1000000
 
 
                             }
-
-
 
                         }
 
@@ -289,34 +269,24 @@ Window {
                                 text: qsTr("Adapter baudrate")
                             }
 
-                            ComboBox {
+                            DCComboBox{
                                 id: adapterBaudRateComboBox
-
                                 anchors {
                                     right: parent.right
                                     verticalCenter: parent.verticalCenter
                                 }
 
+                                textHorizontalAlignment: Text.AlignHCenter
+
                                 implicitHeight: busNumberSpinBox.height
                                 implicitWidth: busNumberSpinBox.width
 
-                                contentItem: Text {
-                                    text: parent.displayText
-//                                    font.family: "Arial";
-//                                    font.pixelSize: 39;
-                                    color: dcPallete.text
-                                    verticalAlignment: Text.AlignVCenter;
-                                    horizontalAlignment: Text.AlignHCenter;
-                                    elide: Text.ElideRight
-                                }
+                                Component.onCompleted: {
+                                    var bauds = ["57600", "115200", "1000000", "3000000"]
 
-                                model: ListModel {
-                                    id: adapterBaudRateModel
-                                    ListElement {text: "3000000"}
-                                    ListElement {text: "9600"}
-                                    ListElement {text: "115200"}
+                                    adapterBaudRateComboBox.model = bauds
+                                    adapterBaudRateComboBox.currentIndex = 3
                                 }
-
 
                             }
 
@@ -340,14 +310,13 @@ Window {
             Layout.preferredHeight: mainGrid.height * 0.06
             Layout.preferredWidth: mainGrid.width
 
-            Button {
+            DCButton {
                 id: acceptBtn
 
-                width: parent.width
-                height: parent.height
+                implicitWidth: parent.width
+                implicitHeight: parent.height
 
                 text: "OK"
-                palette.buttonText: dcPallete.text
 
                 onClicked: connectionHandler()
 
@@ -362,6 +331,8 @@ Window {
                 }
 
             }
+
+
 
 
         }

@@ -9,8 +9,8 @@
 
 #include <QDebug>
 
-#include "linkserial.h"
 
+class LinkSerial;
 
 
 class LinkManager : public QObject
@@ -48,6 +48,9 @@ signals:
 
     void portsChanged();
     void createConnectionLink(QString portName, int busNumber, int canBusBitrate, int adapterSpeed);
+
+public slots:
+    void statusConnect();
 
 private slots:
 

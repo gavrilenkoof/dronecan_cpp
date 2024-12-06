@@ -2,5 +2,6 @@
     <qresource prefix="/qml">
         <file alias="main.qml">src/UI/main.qml</file>
         <file alias="setup.qml">src/UI/setup.qml</file>
+        <file alias="QmlControls/DCButton.qml">src/QmlControls/DCButton.qml</file>
     </qresource>
 </RCC>

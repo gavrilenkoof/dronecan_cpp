@@ -8,6 +8,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
+set(CMAKE_INCLUDE_CURRENT_DIR OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 
 list(APPEND QGC_RESOURCES
     ${CMAKE_SOURCE_DIR}/dronecan.qrc
@@ -25,9 +28,13 @@ qt_add_executable(appdronecan_cpp
     ${QGC_RESOURCES}
 )
 
+qt_policy(
+    SET QTP0001 NEW
+    SET QTP0002 NEW
+)
+
 
 add_subdirectory(src)
-
 
 #qt_add_qml_module(appdronecan_cpp
 #    URI dronecan_cpp
@@ -44,10 +51,12 @@ add_subdirectory(src)
 #)
 
 target_link_libraries(appdronecan_cpp
+    PUBLIC
+        dronecan_cpp
     PRIVATE
         Qt6::Quick
         Qt6::SerialPort
-        dronecan_cpp
+
 )
 
 

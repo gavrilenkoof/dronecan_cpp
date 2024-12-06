@@ -14,6 +14,14 @@ qt_add_library(QmlControls STATIC
     dcpallete.cc
 )
 
+qt_add_qml_module(QmlControls
+    URI QmlControls
+    QML_FILES
+        DCButton.qml
+        DCComboBox.qml
+    VERSION 1.0
+)
+
 
 target_link_libraries(QmlControls
     PRIVATE
@@ -23,6 +31,7 @@ target_link_libraries(QmlControls
         Qt6::QuickWidgets
         Qt6::Widgets
         Qt6::Gui
+        QmlControlsplugin
 )
 
 
