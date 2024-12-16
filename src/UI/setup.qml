@@ -243,7 +243,7 @@ Window {
                                 editable: true
                                 from: 0
                                 to: 1000000
-                                value: 1000000
+                                value: 500000
 
 
                             }

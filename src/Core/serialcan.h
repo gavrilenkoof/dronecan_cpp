@@ -9,6 +9,7 @@
 
 #include "linkserial.h"
 #include "canframe.h"
+#include "canard.h"
 
 
 
@@ -43,7 +44,7 @@ public:
 
     bool tryConnect(LinkSerial *link);
 
-    std::queue<CANFrame> &getRxFrameQueue(void)
+    std::queue<CanardCANFrame> &getRxFrameQueue(void)
     {
         return _rx_queue;
     }
@@ -103,7 +104,7 @@ private:
     int _pos{0};
     serialBuffer _buf{};
 
-    std::queue<CANFrame> _rx_queue{};
+    std::queue<CanardCANFrame> _rx_queue{};
 
 
 };

@@ -256,7 +256,13 @@ bool SerialCAN::_handleFrameDataExt(serialBuffer &cmd, bool canfd)
 
 //    qDebug() << f.data[0] << f.data[1] << f.data[2];
 
-    _rx_queue.push(f);
+    CanardCANFrame frame{};
+    frame.id = f.id;
+    frame.data_len = f.dlc;
+    frame.iface_id = 0;
+    memcpy(frame.data, f.data, frame.data_len);
+
+    _rx_queue.push(frame);
 
     return true;
 }
