@@ -6,18 +6,7 @@
 
 
 #include "serialcan.h"
-
-
-
-// include the canard C++ APIs
-#include "canard.h"
-//#include <canard/publisher.h>
-#include "canard/publisher.h"
-#include "canard/subscriber.h"
-#include "canard/service_client.h"
-#include "canard/service_server.h"
-#include "canard/handler_list.h"
-#include "canard/transfer_object.h"
+#include "dccanard_iface.h"
 
 
 
@@ -37,30 +26,34 @@ public:
 
     void init();
 
-signals:
+    std::queue<CanardCANFrame> &getTxFrameQueue(void)
+    {
+        return _tx_queue;
+    }
 
-private slots:
+
+
+signals:
+    void canFramesTransmitReady(DCCanard * const canard);
+
+public slots:
     void onCanFramesReceived(SerialCAN * const slcan);
 
 private:
     explicit DCCanard(QObject *parent = nullptr);
+    ~DCCanard();
 
-    void _proccess1000Hz();
-    static void _onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer);
-    static bool _shouldAcceptTransfer(const CanardInstance* ins,
-                                     uint64_t* out_data_type_signature,
-                                     uint16_t data_type_id,
-                                     CanardTransferType transfer_type,
-                                     uint8_t source_node_id);
+    void _process(void);
 
 private:
     static DCCanard *_instance;
 
-    CanardInstance canard;
+    DCCanardIface *_pIface{nullptr};
 
-    QTimer *_pTimer1000Hz{nullptr};
+    QTimer *_pTimerProcess{nullptr};
 
-    uint8_t _memory_pool[8192]{};
+    std::queue<CanardCANFrame> _tx_queue{};
+
 
 };
 

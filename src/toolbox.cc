@@ -31,10 +31,13 @@ void ToolBox::init()
     _pQmlEngine->addImportPath("qrc:/qml");
     qmlRegisterSingletonType<ToolBox>("ToolBox", 1, 0, "ToolBox", ToolBox::getInstance);
 
-
-
     _pLinkManager->init();
     _pPall->init();
     _pSlcan->init();
     _pCanard->init();
+
+    // handle rx frames
+    (void)connect(_pSlcan, &SerialCAN::canFramesReceived, _pCanard, &DCCanard::onCanFramesReceived);
+    // handle tx frames
+    (void)connect(_pCanard, &DCCanard::canFramesTransmitReady, _pSlcan, &SerialCAN::onCanFramesTransmitReady);
 }

@@ -1,4 +1,5 @@
 #include "serialcan.h"
+#include "dccanard.h"
 
 
 SerialCAN *SerialCAN::_instance{nullptr};
@@ -327,6 +328,17 @@ void SerialCAN::onRecieveBytes(LinkSerial *link, QByteArray bytes)
         }
 
 
+    }
+
+}
+
+void SerialCAN::onCanFramesTransmitReady(DCCanard * const canard)
+{
+    auto tx_queue = canard->getTxFrameQueue();
+
+    while(!tx_queue.empty())
+    {
+        tx_queue.pop();
     }
 
 

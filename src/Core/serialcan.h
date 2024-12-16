@@ -13,6 +13,7 @@
 
 
 
+class DCCanard;
 
 class SerialCAN : public QObject
 {
@@ -56,6 +57,7 @@ signals:
 
 public slots:
     void onRecieveBytes(LinkSerial *link, QByteArray bytes);
+    void onCanFramesTransmitReady(DCCanard *const canard);
 
 
 private:

@@ -14,6 +14,8 @@ qt_add_library(Core STATIC
     canframe.h
     dccanard.h
     dccanard.cc
+    dccanard_iface.h
+    dccanard_iface.cc
 )
 
 
