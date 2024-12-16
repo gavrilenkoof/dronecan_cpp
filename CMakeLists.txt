@@ -33,8 +33,8 @@ qt_policy(
     SET QTP0002 NEW
 )
 
-
 add_subdirectory(src)
+add_subdirectory(lib)
 
 #qt_add_qml_module(appdronecan_cpp
 #    URI dronecan_cpp

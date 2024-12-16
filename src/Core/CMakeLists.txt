@@ -12,6 +12,8 @@ qt_add_library(Core STATIC
     serialcan.h
     serialcan.cc
     canframe.h
+    dccanard.h
+    dccanard.cc
 )
 
 
@@ -25,6 +27,7 @@ target_link_libraries(Core
         Qt6::QuickWidgets
         Qt6::Widgets
         Qt6::SerialPort
+        canard_tgt
 )
 
 
