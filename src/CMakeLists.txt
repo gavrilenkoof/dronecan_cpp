@@ -21,6 +21,10 @@ add_subdirectory(QmlControls)
 add_subdirectory(Connection)
 
 
+
+
+
+
 target_link_libraries(dronecan_cpp
     PRIVATE
         Qt6::Quick

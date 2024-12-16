@@ -13,6 +13,10 @@
 #include "canard/handler_list.h"
 #include "canard/transfer_object.h"
 
+// include the headers for the generated DroneCAN messages from the
+// dronecan_dsdlc compiler
+//#include <dronecan_msgs.h>
+
 
 class DCCanardIface : public Canard::Interface
 {
@@ -42,6 +46,10 @@ private:
                                          uint8_t source_node_id);
 
 private:
+
+//    Canard::Publisher<uavcan_protocol_NodeStatus> node_status{_canard_iface};
+
+
     CanardInstance canard;
     CanardTxTransfer tx_transfer;
     uint8_t _memory_pool[8192]{};

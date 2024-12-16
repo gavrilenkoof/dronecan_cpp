@@ -130,11 +130,11 @@ bool DCCanardIface::respond(uint8_t destination_node_id, const Canard::Transfer 
 
 void DCCanardIface::_onTransferReceived(CanardInstance* ins, CanardRxTransfer* transfer)
 {
-//    qDebug() << "_onTransferReceived";
+//    qDebug() << transfer->data_type_id;
 }
 
 bool DCCanardIface::_shouldAcceptTransfer(const CanardInstance *ins, uint64_t *out_data_type_signature, uint16_t data_type_id, CanardTransferType transfer_type, uint8_t source_node_id)
 {
 //    qDebug() << source_node_id;
-    return false;
+    return true;
 }
