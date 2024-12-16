@@ -16,7 +16,15 @@
 class SerialCAN : public QObject
 {
     Q_OBJECT
-public:
+
+private:
+    static constexpr char CARRIAGE_RET = '\r';
+    static constexpr char A_SYBMOL = '\a';
+    static constexpr int SLCAN_BUFFER_SIZE = 200;
+    static constexpr int RX_QUEUE_MAX = 200;
+    static constexpr int ACK_TO_INIT = 4;
+
+    typedef std::array<char, SLCAN_BUFFER_SIZE> serialBuffer;
 
 
 public:
@@ -35,10 +43,15 @@ public:
 
     bool tryConnect(LinkSerial *link);
 
+    std::queue<CANFrame> &getRxFrameQueue(void)
+    {
+        return _rx_queue;
+    }
+
 signals:
     void statusConnect();
 
-    void canframeReceived(CANFrame frame);
+    void canFramesReceived(SerialCAN *const slcan);
 
 public slots:
     void onRecieveBytes(LinkSerial *link, QByteArray bytes);
@@ -47,14 +60,6 @@ public slots:
 private:
     explicit SerialCAN(QObject *parent = nullptr);
     ~SerialCAN();
-
-private:
-    static constexpr char CARRIAGE_RET = '\r';
-    static constexpr char A_SYBMOL = '\a';
-    static constexpr int SLCAN_BUFFER_SIZE = 200;
-    static constexpr int RX_QUEUE_MAX = 200;
-
-    typedef std::array<char, SLCAN_BUFFER_SIZE> serialBuffer;
 
 private:
     int _setEmptyCmd(QByteArray &cmd);

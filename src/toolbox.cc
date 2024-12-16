@@ -3,6 +3,7 @@
 #include "linkmanager.h"
 #include "dcpallete.h"
 #include "serialcan.h"
+#include "dccanard.h"
 
 ToolBox* ToolBox::_instance = nullptr;
 
@@ -15,6 +16,7 @@ ToolBox::ToolBox(QObject *app)
     _pLinkManager = LinkManager::getInstance(this);
     _pPall = DCPallete::getInstance(this);
     _pSlcan = SerialCAN::getInstance(this);
+    _pCanard = DCCanard::getInstance(this);
 
     _pQmlEngine = new QQmlApplicationEngine(this);
 }
@@ -34,4 +36,5 @@ void ToolBox::init()
     _pLinkManager->init();
     _pPall->init();
     _pSlcan->init();
+    _pCanard->init();
 }

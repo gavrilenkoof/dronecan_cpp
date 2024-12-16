@@ -24,7 +24,6 @@ void SerialCAN::init()
 
 bool SerialCAN::tryConnect(LinkSerial *link)
 {
-
     _ack_init_cmd = 0; // reset _ack_init_cmd
     _inited = false;
 
@@ -59,41 +58,40 @@ bool SerialCAN::tryConnect(LinkSerial *link)
     return false;
 }
 
-
 int SerialCAN::_setEmptyCmd(QByteArray &cmd)
 {
-    cmd.resize(2);
-    return snprintf(cmd.data(), 2, "%c", CARRIAGE_RET);
+    cmd.resize(1);
+    return sprintf(cmd.data(), "%c", CARRIAGE_RET);
 }
 
 int SerialCAN::_setDisableCanCmd(QByteArray &cmd)
 {
-    cmd.resize(3);
-    return snprintf(cmd.data(), 3, "C%c", CARRIAGE_RET);
+    cmd.resize(2);
+    return sprintf(cmd.data(), "C%c", CARRIAGE_RET);
 }
 
 int SerialCAN::_setCanBaud(int speed, QByteArray &cmd)
 {
-    cmd.resize(4);
+    cmd.resize(3);
     int idx = 8;
     if(_baud2idx.find(speed) != _baud2idx.end())
     {
         idx = _baud2idx.at(speed);
     }
 
-    return snprintf(cmd.data(), 4, "S%d%c", idx, CARRIAGE_RET);
+    return sprintf(cmd.data(), "S%d%c", idx, CARRIAGE_RET);
 }
 
 int SerialCAN::_setOpenChannel(QByteArray &cmd)
 {
-    cmd.resize(3);
-    return snprintf(cmd.data(), 3, "O%c", CARRIAGE_RET);
+    cmd.resize(2);
+    return sprintf(cmd.data(), "O%c", CARRIAGE_RET);
 }
 
 int SerialCAN::_setClearErrorFlags(QByteArray &cmd)
 {
-    cmd.resize(3);
-    return snprintf(cmd.data(), 3, "F%c", CARRIAGE_RET);
+    cmd.resize(2);
+    return sprintf(cmd.data(), "F%c", CARRIAGE_RET);
 }
 
 void SerialCAN::_addByte(LinkSerial *link, char const &byte)
@@ -249,12 +247,14 @@ bool SerialCAN::_handleFrameDataExt(serialBuffer &cmd, bool canfd)
         p += 2;
     }
 
-//    qDebug() << f.data[0] << f.data[1] << f.data[2];
+
 
     if(hex2nibble_error)
     {
         return false;
     }
+
+//    qDebug() << f.data[0] << f.data[1] << f.data[2];
 
     _rx_queue.push(f);
 
@@ -290,12 +290,14 @@ uint8_t SerialCAN::hex2nibble(char c, bool &hex2nibble_error)
 
 void SerialCAN::onRecieveBytes(LinkSerial *link, QByteArray bytes)
 {
+//    qDebug() << bytes;
+
     if(!_inited && bytes.contains('\r'))
     {
         ++_ack_init_cmd;
     }
 
-    if(!_inited && _ack_init_cmd >= 1)
+    if(!_inited && _ack_init_cmd >= ACK_TO_INIT)
     {
         _inited = true;
     }
@@ -313,13 +315,11 @@ void SerialCAN::onRecieveBytes(LinkSerial *link, QByteArray bytes)
 
         }
 
-        CANFrame frame;
-        while(!_rx_queue.empty())
+        if(!_rx_queue.empty())
         {
-            frame = _rx_queue.front();
-            _rx_queue.pop();
-            emit canframeReceived(frame);
+            emit canFramesReceived(this);
         }
+
 
     }
 
