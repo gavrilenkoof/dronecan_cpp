@@ -1,0 +1,9 @@
+[submodule "libcanard"]
+	path = libcanard
+	url = https://github.com/dronecan/libcanard.git
+[submodule "lib/lib/libcanard"]
+	path = lib/lib/libcanard
+	url = https://github.com/dronecan/libcanard.git
+[submodule "lib/libcanard"]
+	path = lib/libcanard
+	url = https://github.com/dronecan/libcanard.git

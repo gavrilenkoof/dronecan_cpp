@@ -5,15 +5,26 @@
 #include <QDebug>
 #include <array>
 #include <utility>
+#include <queue>
 
 #include "linkserial.h"
+#include "canframe.h"
+
 
 
 
 class SerialCAN : public QObject
 {
     Q_OBJECT
-public:
+
+private:
+    static constexpr char CARRIAGE_RET = '\r';
+    static constexpr char A_SYBMOL = '\a';
+    static constexpr int SLCAN_BUFFER_SIZE = 200;
+    static constexpr int RX_QUEUE_MAX = 200;
+    static constexpr int ACK_TO_INIT = 4;
+
+    typedef std::array<char, SLCAN_BUFFER_SIZE> serialBuffer;
 
 
 public:
@@ -32,8 +43,15 @@ public:
 
     bool tryConnect(LinkSerial *link);
 
+    std::queue<CANFrame> &getRxFrameQueue(void)
+    {
+        return _rx_queue;
+    }
+
 signals:
     void statusConnect();
+
+    void canFramesReceived(SerialCAN *const slcan);
 
 public slots:
     void onRecieveBytes(LinkSerial *link, QByteArray bytes);
@@ -44,20 +62,21 @@ private:
     ~SerialCAN();
 
 private:
-    static constexpr char CARRIAGE_RET = '\r';
-    static constexpr int SLCAN_BUFFER_SIZE = 200;
-
-    typedef std::array<char, SLCAN_BUFFER_SIZE> serialBuffer;
-
-private:
     int _setEmptyCmd(QByteArray &cmd);
     int _setDisableCanCmd(QByteArray &cmd);
     int _setCanBaud(int speed, QByteArray &cmd);
     int _setOpenChannel(QByteArray &cmd);
     int _setClearErrorFlags(QByteArray &cmd);
     void _addByte(LinkSerial *link, char const &byte);
-//    QByteArray _processCommand(serialBuffer &cmd);
     bool _processCommand(serialBuffer &cmd, QByteArray &response);
+
+    char _getASCIIStatusCode(bool status);
+    char _getStatusFlags(void);
+    QString _getSerialNumber(void);
+
+    bool _handleFrameDataExt(serialBuffer &cmd, bool canfd);
+
+    uint8_t hex2nibble(char c, bool &hex2nibble_error);
 
 private:
 
@@ -83,6 +102,8 @@ private:
 
     int _pos{0};
     serialBuffer _buf{};
+
+    std::queue<CANFrame> _rx_queue{};
 
 
 };
