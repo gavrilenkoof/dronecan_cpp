@@ -7,16 +7,45 @@ ApplicationWindow {
     id: mainWindow
     width: 640
     height: 480
-    visible: true
+    visible: false
     title: qsTr("DroneCAN GUI Tool")
 
     color: dcPallete.window
 
-    readonly property var dcCore: ToolBox.core
     readonly property var dcPallete: ToolBox.pallete
+    readonly property var linkManager : ToolBox.linkManager
+    property var setup_window: undefined
 
+    Component.onCompleted: spawnSetupWindow()
 
-    property var wnd: undefined
+    function spawnSetupWindow()
+    {
+        var component = Qt.createComponent("setup.qml")
+        setup_window = component.createObject(mainWindow)
+        setup_window.closing.connect(setupWindowClose)
+        setup_window.show()
+    }
+
+    function setupWindowClose()
+    {
+        setup_window.destroy()
+        setup_window = undefined
+        if(!mainWindow.visible)
+        {
+            visible = true
+            mainWindow.close()
+        }
+    }
+
+    Connections {
+        target: linkManager
+        function onConnectionSuccess()
+        {
+            setupWindowClose()
+            mainWindow.visible = true
+        }
+    }
+
 
     MenuBar {
            id: menuBar
@@ -64,26 +93,21 @@ ApplicationWindow {
            }
        }
 
-    Button {
-        id: testButton
-        anchors.centerIn: parent
-        text: "Click on me"
-        onClicked: handle()
-    }
 
-    function handle()
-    {
-        if(wnd == undefined)
-        {
-            var component = Qt.createComponent("setup.qml")
-            wnd = component.createObject(mainWindow);
-            wnd.closing.connect(function() { mainWindow.wnd = undefined;});
-            wnd.show();
-        }
-        else
-        {
-            wnd.requestActivate();
-        }
-    }
+
+//    function spawn_setup()
+//    {
+//        if(setup_window == undefined)
+//        {
+//            var component = Qt.createComponent("setup.qml")
+//            setup_window = component.createObject(mainWindow);
+//            setup_window.closing.connect(setupWindowClose);
+//            setup_window.show();
+//        }
+//        else
+//        {
+//            setup_window.requestActivate();
+//        }
+//    }
 
 }

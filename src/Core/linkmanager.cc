@@ -110,6 +110,7 @@ void LinkManager::_onCreateConnectionLink(QString portName, int busNumber, int c
     }
 
     // emit signal about succesfull connect to the device
+    emit connectionSuccess();
 }
 
 QVariantMap LinkManager::ports(void)

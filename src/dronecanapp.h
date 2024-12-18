@@ -7,7 +7,6 @@
 #include <QtQml/qqmlregistration.h>
 #include <QtQml/QQmlContext>
 
-//#include "Core/dronecancore.h"
 #include "toolbox.h"
 
 
@@ -20,7 +19,6 @@ public:
 
 public:
     void init();
-    int execSetup();
     int execApp();
 
 signals:

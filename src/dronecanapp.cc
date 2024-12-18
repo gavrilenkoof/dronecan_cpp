@@ -40,17 +40,3 @@ int DronecanApp::execApp()
     return this->exec();
 }
 
-int DronecanApp::execSetup()
-{
-    const QUrl url("qrc:/qml/setup.qml");
-    QObject::connect(_pTools->getQmlEngine(), &QQmlApplicationEngine::objectCreated,
-                         this, [url](QObject *obj, const QUrl &objUrl) {
-            if (!obj && url == objUrl)
-                QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
-
-    _pTools->getQmlEngine()->load(url);
-
-    return this->exec();
-
-}

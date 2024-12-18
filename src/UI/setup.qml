@@ -26,6 +26,9 @@ Window {
 
 //    property var ports: ToolBox.core.link.ports
 
+//    Component.onDestruction: {
+//        console.log("destroying setup window")
+//    }
 
     GridLayout {
         id: mainGrid

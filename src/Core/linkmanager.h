@@ -49,6 +49,8 @@ signals:
     void portsChanged();
     void createConnectionLink(QString portName, int busNumber, int canBusBitrate, int adapterSpeed);
 
+    void connectionSuccess();
+
 public slots:
     void statusConnect();
 
