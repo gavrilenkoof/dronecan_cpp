@@ -2,9 +2,11 @@
 #define DCCANARD_H
 
 #include <QObject>
+#include <QTimer>
 
-#include "canard.h"
+
 #include "serialcan.h"
+#include "dccanard_iface.h"
 
 
 
@@ -24,16 +26,34 @@ public:
 
     void init();
 
-signals:
+    std::queue<CanardCANFrame> &getTxFrameQueue(void)
+    {
+        return _tx_queue;
+    }
 
-private slots:
+
+
+signals:
+    void canFramesTransmitReady(DCCanard * const canard);
+
+public slots:
     void onCanFramesReceived(SerialCAN * const slcan);
 
 private:
     explicit DCCanard(QObject *parent = nullptr);
+    ~DCCanard();
+
+    void _process(void);
 
 private:
     static DCCanard *_instance;
+
+    DCCanardIface *_pIface{nullptr};
+
+    QTimer *_pTimerProcess{nullptr};
+
+    std::queue<CanardCANFrame> _tx_queue{};
+
 
 };
 

@@ -9,9 +9,11 @@
 
 #include "linkserial.h"
 #include "canframe.h"
+#include "canard.h"
 
 
 
+class DCCanard;
 
 class SerialCAN : public QObject
 {
@@ -43,7 +45,7 @@ public:
 
     bool tryConnect(LinkSerial *link);
 
-    std::queue<CANFrame> &getRxFrameQueue(void)
+    std::queue<CanardCANFrame> &getRxFrameQueue(void)
     {
         return _rx_queue;
     }
@@ -55,6 +57,7 @@ signals:
 
 public slots:
     void onRecieveBytes(LinkSerial *link, QByteArray bytes);
+    void onCanFramesTransmitReady(DCCanard *const canard);
 
 
 private:
@@ -103,7 +106,7 @@ private:
     int _pos{0};
     serialBuffer _buf{};
 
-    std::queue<CANFrame> _rx_queue{};
+    std::queue<CanardCANFrame> _rx_queue{};
 
 
 };
