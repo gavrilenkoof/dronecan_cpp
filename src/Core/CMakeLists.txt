@@ -7,8 +7,6 @@ find_package(Qt6
 )
 
 qt_add_library(Core STATIC
-    linkmanager.h
-    linkmanager.cc
     serialcan.h
     serialcan.cc
     canframe.h

@@ -1,5 +1,8 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+//import Qt.labs.platform
+import QtQml
 
 import ToolBox
 
@@ -45,6 +48,8 @@ ApplicationWindow {
             mainWindow.visible = true
         }
     }
+
+
 
 
     MenuBar {
@@ -95,19 +100,116 @@ ApplicationWindow {
 
 
 
-//    function spawn_setup()
-//    {
-//        if(setup_window == undefined)
-//        {
-//            var component = Qt.createComponent("setup.qml")
-//            setup_window = component.createObject(mainWindow);
-//            setup_window.closing.connect(setupWindowClose);
-//            setup_window.show();
+    GridLayout {
+        id: leftGrid
+        columns: 1
+        rows: 4
+
+        anchors {
+            top: menuBar.bottom
+            left: menuBar.left
+//            fill: parent
+//            topMargin: 30
+            margins: 5
+        }
+
+        rowSpacing: 0
+        columnSpacing: 0
+
+        Rectangle {
+            id: localNodePropertiesRect
+            color: mainWindow.color
+            border.color: "red"
+
+            Layout.row: 0
+            Layout.column: 0
+            Layout.preferredHeight: mainWindow.height * 0.07
+            Layout.preferredWidth: mainWindow.width * 0.55
+        }
+
+        Rectangle {
+            id: adapterSettingsRect
+            color: mainWindow.color
+            border.color: "blue"
+
+            Layout.row: 1
+            Layout.column: 0
+            Layout.preferredHeight: mainWindow.height * 0.07
+            Layout.preferredWidth: localNodePropertiesRect.width
+        }
+
+        Rectangle {
+            id: nodeTableRect
+            color: mainWindow.color
+            border.color: "red"
+
+            Layout.row: 2
+            Layout.column: 0
+            Layout.preferredHeight: mainWindow.height * 0.81
+            Layout.preferredWidth: localNodePropertiesRect.width
+
+        }
+
+        Rectangle {
+            id: fileServerRect
+            color: mainWindow.color
+            border.color: "yellow"
+
+            Layout.row: 4
+            Layout.column: 0
+            Layout.preferredHeight: mainWindow.height * 0.05
+            Layout.preferredWidth: localNodePropertiesRect.width
+        }
+
+//        Rectangle {
+//            id: systemMsgRect
+//            color: mainWindow.color
+//            border.color: "red"
+
+//            Layout.row: 5
+//            Layout.column: 0
+//            Layout.columnSpan: 2
+//            Layout.preferredHeight: leftGrid.height * 0.05
+//            Layout.preferredWidth: leftGrid.width
 //        }
-//        else
-//        {
-//            setup_window.requestActivate();
+
+
+    }
+
+
+//    GridLayout {
+//        id: rightGrid
+
+//        columns: 1
+//        rows: 2
+
+//        anchors {
+//            top: menuBar.bottom
+//            left: menuBar.right
+//            fill: parent
+//            topMargin: 30
+//            margins: 5
 //        }
+
+//        rowSpacing: 0
+//        columnSpacing: 0
+
+//        Rectangle {
+//            id: logMsgRect
+
+//            color: mainWindow.color
+//            border.color: "red"
+
+//            Layout.row: 0
+//            Layout.column: 0
+//            Layout.preferredHeight: rightGrid.height * 0.4
+//            Layout.preferredWidth: rightGrid.width * 0.45
+//        }
+
+
 //    }
+
+
+
 
 }
